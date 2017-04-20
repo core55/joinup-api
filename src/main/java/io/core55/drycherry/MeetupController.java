@@ -15,14 +15,9 @@ public class MeetupController {
     private MeetupRepository meetupRepository;
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    public @ResponseBody String create(@RequestParam double initialLongitude, @RequestParam double initialLatitude) {
+    public Meetup create(@RequestBody Meetup meetup) {
 
-        Meetup newMeetup = new Meetup();
-        newMeetup.setInitialLongitude(initialLongitude);
-        newMeetup.setInitialLatitude(initialLatitude);
-        meetupRepository.save(newMeetup);
-
-        return "Saved!";
+        return meetupRepository.save(meetup);
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")

@@ -1,5 +1,6 @@
 package io.core55.drycherry;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -8,6 +9,7 @@ import javax.persistence.Id;
  * Created by S. Stefani on 2017-04-20.
  */
 
+@Entity
 public class Meetup {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -16,8 +18,8 @@ public class Meetup {
     private double initialLongitude;
     private double initialLatitude;
 
-    private double pinLongitude;
-    private double pinLatitude;
+//    private double pinLongitude;
+//    private double pinLatitude;
 
     public Integer getId() {
         return id;
@@ -43,19 +45,19 @@ public class Meetup {
         this.initialLatitude = initialLatitude;
     }
 
-    public double getPinLongitude() {
-        return pinLongitude;
-    }
-
-    public void setPinLongitude(double pinLongitude) {
-        this.pinLongitude = pinLongitude;
-    }
-
-    public double getPinLatitude() {
-        return pinLatitude;
-    }
-
-    public void setPinLatitude(double pinLatitude) {
-        this.pinLatitude = pinLatitude;
-    }
+//    public double getPinLongitude() {
+//        return pinLongitude;
+//    }
+//
+//    public void setPinLongitude(double pinLongitude) {
+//        this.pinLongitude = pinLongitude;
+//    }
+//
+//    public double getPinLatitude() {
+//        return pinLatitude;
+//    }
+//
+//    public void setPinLatitude(double pinLatitude) {
+//        this.pinLatitude = pinLatitude;
+//    }
 }

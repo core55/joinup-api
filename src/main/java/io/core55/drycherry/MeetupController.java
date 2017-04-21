@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/meetups")
@@ -31,6 +32,10 @@ public class MeetupController {
      */
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public Meetup create(@RequestBody Meetup meetup) {
+
+        String hash = generateHash();
+        if (hash == null) throw new RuntimeException("Generating unique hash failed");
+        meetup.setHash(hash);
         return meetupRepository.save(meetup);
     }
 
@@ -78,5 +83,23 @@ public class MeetupController {
     public Meetup show(@PathVariable("hash") String hash) {
 
         return meetupRepository.findByHash(hash);
+    }
+
+    public int count = 0;
+
+    private String generateHash() {
+
+        boolean flag = false;
+        String hash;
+        while (!flag && count < 10) {
+            hash = UUID.randomUUID().toString().replaceAll("-", "");
+            Meetup meetup = meetupRepository.findByHash(hash);
+            if (meetup == null) {
+                flag = true;
+                return hash;
+            }
+            count++;
+        }
+        return null;
     }
 }

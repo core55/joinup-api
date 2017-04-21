@@ -11,7 +11,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @NamedQuery(name = "Meetup.findByHash",
@@ -67,7 +66,6 @@ public class Meetup implements Serializable {
 
     public Meetup() {
         this.numberOfUsers = 1;
-        this.hash = generateHash();
     }
 
     public Long getId() {
@@ -136,9 +134,5 @@ public class Meetup implements Serializable {
 
     public void setHash(String hash) {
         this.hash = hash;
-    }
-
-    public String generateHash() {
-        return UUID.randomUUID().toString().replaceAll("-", "");
     }
 }

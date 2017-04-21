@@ -1,6 +1,6 @@
 /**
  * MeetupController.java
- *
+ * <p>
  * Created by S. Stefani on 2017-04-20.
  */
 
@@ -8,6 +8,9 @@ package io.core55.drycherry;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.transaction.Transactional;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/meetups")
@@ -37,8 +40,17 @@ public class MeetupController {
      * @return a list of meetups
      */
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody Iterable<Meetup> index() {
+    public @ResponseBody
+    Iterable<Meetup> index() {
 
         return meetupRepository.findAll();
+    }
+
+    /**
+     * Delete an existing meetup in the database
+     */
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable("id") long id) {
+        meetupRepository.delete(id);
     }
 }

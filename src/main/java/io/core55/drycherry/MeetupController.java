@@ -23,6 +23,7 @@ public class MeetupController {
      */
     @Autowired
     private MeetupRepository meetupRepository;
+    private UserRepository userRepository;
 
     /**
      * Persist a meetup entity in the database
@@ -84,6 +85,26 @@ public class MeetupController {
 
         return meetupRepository.findByHash(hash);
     }
+
+    /**
+     * Linking a user to a meetup
+     */
+    @RequestMapping(value = "/{hash}/users", method = RequestMethod.POST, produces = "application/json")
+    public User addUser(@RequestBody User newUser, @PathVariable("hash") String hash) {
+
+        Meetup meetup = meetupRepository.findByHash(hash);
+
+        if(newUser.getId() != null){
+            User currentUser = userRepository.findOne(newUser.getId());
+            currentUser.setLastLongitude(newUser.getLastLongitude());
+            currentUser.setLastLatitude(newUser.getLastLatitude());
+            return userRepository.save(currentUser);
+        } else {
+            return userRepository.save(newUser);
+        }
+    }
+
+
 
     public int count = 0;
 

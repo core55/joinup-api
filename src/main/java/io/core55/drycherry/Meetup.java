@@ -6,64 +6,120 @@
 
 package io.core55.drycherry;
 
-import javax.persistence.Id;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
 
 @Entity
-public class Meetup {
+@Table(name = "meetup")
+public class Meetup implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private long id;
+    private Long id;
 
-    /**
-     * The initial longitude and latitude are determined by the user by centering the map during the creation phase.
-     * The exact coordinates are returned from Google Maps APIs.
-     */
-    private double initialLongitude;
-    private double initialLatitude;
+    @Column(name = "created_at")
+    private Date createdTime;
 
-//    private double pinLongitude;
-//    private double pinLatitude;
+    @Column(name = "updated_at")
+    private Date updatedTime;
 
-    /**
-     * Basic getters and setters to interact with the properties of the Meetup model.
-     */
-    public long getId() {
+    @Column(length = 20)
+    private String name;
+
+    @Column(name = "center_longitude")
+    private Double centerLongitude;
+
+    @Column(name = "center_latitude")
+    private Double centerLatitude;
+
+    @Column(name = "number_of_users")
+    private Integer numberOfUsers;
+
+    @Column(name = "zoom_level")
+    private Integer zoomLevel;
+
+    @Column(name = "pin_longitude")
+    private Double pinLongitude;
+
+    @Column(name = "pin_latitude")
+    private Double pinLatitude;
+
+//    public Meetup(double centerLongitude, double centerLatitude){
+//        this.centerLongitude = centerLongitude;
+//        this.centerLatitude = centerLatitude;
+//    }
+//
+    public Meetup(String name, double centerLongitude, double centerLatitude) {
+        this.name = name;
+        this.numberOfUsers = 1;
+        this.createdTime = new Date();
+        this.updatedTime = new Date();
+        this.centerLatitude = centerLatitude;
+        this.centerLongitude = centerLongitude;
+    }
+
+
+    public Long getId() {
         return id;
     }
 
-    public double getInitialLongitude() {
-        return initialLongitude;
+    public Date getCreatedTime(){
+        return createdTime;
     }
 
-    public void setInitialLongitude(double initialLongitude) {
-        this.initialLongitude = initialLongitude;
+    public Date getUpdatedTime(){
+        return updatedTime;
     }
 
-    public double getInitialLatitude() {
-        return initialLatitude;
+    public String getName(){
+        return name;
     }
 
-    public void setInitialLatitude(double initialLatitude) {
-        this.initialLatitude = initialLatitude;
+    public Double getCenterLongitude() {
+        return centerLongitude;
     }
 
-//    public double getPinLongitude() {
-//        return pinLongitude;
-//    }
-//
-//    public void setPinLongitude(double pinLongitude) {
-//        this.pinLongitude = pinLongitude;
-//    }
-//
-//    public double getPinLatitude() {
-//        return pinLatitude;
-//    }
-//
-//    public void setPinLatitude(double pinLatitude) {
-//        this.pinLatitude = pinLatitude;
-//    }
+    public Double getCenterLatitude() {
+        return centerLatitude;
+    }
+
+    public void setCenterLongitude(double initialLongitude) {
+        this.centerLongitude = initialLongitude;
+    }
+
+    public void setCenterLatitude(double initialLatitude) {
+        this.centerLatitude = initialLatitude;
+    }
+
+    public Integer getNumberOfUsers(){
+        return numberOfUsers;
+    }
+
+    public Integer getZoomLevel(){
+        return zoomLevel;
+    }
+
+    public void setZoomLevel(int zoomLevel){
+        this.zoomLevel = zoomLevel;
+    }
+
+
+    public Double getPinLongitude() {
+        return pinLongitude;
+    }
+
+    public Double getPinLatitude() {
+        return pinLatitude;
+    }
+
+    public void setPinLongitude(double pinLongitude) {
+        this.pinLongitude = pinLongitude;
+    }
+
+    public void setPinLatitude(double pinLatitude) {
+        this.pinLatitude = pinLatitude;
+    }
+
+
 }

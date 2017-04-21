@@ -1,7 +1,8 @@
 /**
  * Meetup.java
- *
+ * <p>
  * Created by S. Stefani on 2017-04-20.
+ * Edited by P. Gajland on 2017-04-21.
  */
 
 package io.core55.drycherry;
@@ -10,13 +11,16 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
+@NamedQuery(name = "Meetup.findByHash",
+        query = "select m from Meetup m where m.hash = ?1")
 @Table(name = "meetup")
 public class Meetup implements Serializable {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "created_at")
@@ -46,6 +50,9 @@ public class Meetup implements Serializable {
     @Column(name = "pin_latitude")
     private Double pinLatitude;
 
+    @Column(name = "hash")
+    private String hash;
+
     @PrePersist
     public void prePersist() {
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
@@ -60,21 +67,22 @@ public class Meetup implements Serializable {
 
     public Meetup() {
         this.numberOfUsers = 1;
+        this.hash = generateHash();
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getCreatedTime(){
+    public String getCreatedTime() {
         return createdTime;
     }
 
-    public String getUpdatedTime(){
+    public String getUpdatedTime() {
         return updatedTime;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
@@ -94,15 +102,15 @@ public class Meetup implements Serializable {
         this.centerLatitude = initialLatitude;
     }
 
-    public Integer getNumberOfUsers(){
+    public Integer getNumberOfUsers() {
         return numberOfUsers;
     }
 
-    public Integer getZoomLevel(){
+    public Integer getZoomLevel() {
         return zoomLevel;
     }
 
-    public void setZoomLevel(int zoomLevel){
+    public void setZoomLevel(int zoomLevel) {
         this.zoomLevel = zoomLevel;
     }
 
@@ -122,5 +130,15 @@ public class Meetup implements Serializable {
         this.pinLatitude = pinLatitude;
     }
 
+    public String getHash() {
+        return hash;
+    }
 
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    public String generateHash() {
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
 }

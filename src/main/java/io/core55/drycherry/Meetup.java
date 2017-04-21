@@ -1,7 +1,8 @@
 /**
  * Meetup.java
- *
+ * <p>
  * Created by S. Stefani on 2017-04-20.
+ * Edited by P. Gajland on 2017-04-21.
  */
 
 package io.core55.drycherry;
@@ -14,6 +15,8 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
+@NamedQuery(name = "Meetup.findByHash",
+        query = "select m from Meetup m where m.hash = ?1")
 @Table(name = "meetup")
 public class Meetup {
 
@@ -21,7 +24,7 @@ public class Meetup {
     private Set<User> users;
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "created_at")
@@ -50,7 +53,7 @@ public class Meetup {
 
     @Column(name = "pin_latitude")
     private Double pinLatitude;
-
+    
     @ManyToMany(mappedBy = "user")
     public Set<User> getUsers() {
         return users;
@@ -60,6 +63,8 @@ public class Meetup {
         this.users = users;
     }
 
+    @Column(name = "hash")
+    private String hash;
 
     @PrePersist
     public void prePersist() {
@@ -81,15 +86,15 @@ public class Meetup {
         return id;
     }
 
-    public String getCreatedTime(){
+    public String getCreatedTime() {
         return createdTime;
     }
 
-    public String getUpdatedTime(){
+    public String getUpdatedTime() {
         return updatedTime;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
@@ -109,15 +114,15 @@ public class Meetup {
         this.centerLatitude = initialLatitude;
     }
 
-    public Integer getNumberOfUsers(){
+    public Integer getNumberOfUsers() {
         return numberOfUsers;
     }
 
-    public Integer getZoomLevel(){
+    public Integer getZoomLevel() {
         return zoomLevel;
     }
 
-    public void setZoomLevel(int zoomLevel){
+    public void setZoomLevel(int zoomLevel) {
         this.zoomLevel = zoomLevel;
     }
 
@@ -137,5 +142,11 @@ public class Meetup {
         this.pinLatitude = pinLatitude;
     }
 
+    public String getHash() {
+        return hash;
+    }
 
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
 }

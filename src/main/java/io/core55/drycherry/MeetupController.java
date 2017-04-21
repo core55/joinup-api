@@ -1,7 +1,8 @@
 /**
- * MeetupController.java
+ * Meetup.java
  * <p>
  * Created by S. Stefani on 2017-04-20.
+ * Edited by P. Gajland on 2017-04-21.
  */
 
 package io.core55.drycherry;
@@ -73,8 +74,9 @@ public class MeetupController {
     /**
      * Show an existing meetup from the database given its id
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-    public Meetup show(@PathVariable("id") long id) {
-        return meetupRepository.findOne(id);
+    @RequestMapping(value = "/{hash}", method = RequestMethod.GET, produces = "application/json")
+    public Meetup show(@PathVariable("hash") String hash) {
+
+        return meetupRepository.findByHash(hash);
     }
 }

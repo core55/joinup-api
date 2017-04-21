@@ -30,7 +30,6 @@ public class MeetupController {
      */
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public Meetup create(@RequestBody Meetup meetup) {
-
         return meetupRepository.save(meetup);
     }
 
@@ -57,8 +56,8 @@ public class MeetupController {
     public Meetup update(@RequestBody Meetup newMeetup, @PathVariable("id") long id) throws IOException {
 
         Meetup updatedMeetup = meetupRepository.findOne(id);
-        updatedMeetup.setInitialLatitude(newMeetup.getInitialLatitude());
-        updatedMeetup.setInitialLongitude(newMeetup.getInitialLongitude());
+        updatedMeetup.setCenterLatitude(newMeetup.getCenterLatitude());
+        updatedMeetup.setCenterLongitude(newMeetup.getCenterLongitude());
 
         return meetupRepository.save(updatedMeetup);
     }

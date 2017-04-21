@@ -8,6 +8,7 @@ package io.core55.drycherry;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -19,18 +20,18 @@ public class Meetup implements Serializable {
     private Long id;
 
     @Column(name = "created_at")
-    private Date createdTime;
+    private String createdTime;
 
     @Column(name = "updated_at")
-    private Date updatedTime;
+    private String updatedTime;
 
     @Column(length = 20)
     private String name;
 
-    @Column(name = "center_longitude")
+    @Column(name = "center_longitude", nullable = false)
     private Double centerLongitude;
 
-    @Column(name = "center_latitude")
+    @Column(name = "center_latitude", nullable = false)
     private Double centerLatitude;
 
     @Column(name = "number_of_users")
@@ -45,30 +46,31 @@ public class Meetup implements Serializable {
     @Column(name = "pin_latitude")
     private Double pinLatitude;
 
-//    public Meetup(double centerLongitude, double centerLatitude){
-//        this.centerLongitude = centerLongitude;
-//        this.centerLatitude = centerLatitude;
-//    }
-//
-    public Meetup(String name, double centerLongitude, double centerLatitude) {
-        this.name = name;
-        this.numberOfUsers = 1;
-        this.createdTime = new Date();
-        this.updatedTime = new Date();
-        this.centerLatitude = centerLatitude;
-        this.centerLongitude = centerLongitude;
+    @PrePersist
+    public void prePersist() {
+        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+        this.createdTime = timeStamp;
+        this.updatedTime = timeStamp;
     }
 
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedTime = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+    }
+
+    public Meetup() {
+        this.numberOfUsers = 1;
+    }
 
     public Long getId() {
         return id;
     }
 
-    public Date getCreatedTime(){
+    public String getCreatedTime(){
         return createdTime;
     }
 
-    public Date getUpdatedTime(){
+    public String getUpdatedTime(){
         return updatedTime;
     }
 
@@ -103,7 +105,6 @@ public class Meetup implements Serializable {
     public void setZoomLevel(int zoomLevel){
         this.zoomLevel = zoomLevel;
     }
-
 
     public Double getPinLongitude() {
         return pinLongitude;

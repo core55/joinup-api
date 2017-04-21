@@ -1,6 +1,6 @@
 /**
  * MeetupController.java
- *
+ * <p>
  * Created by S. Stefani on 2017-04-20.
  */
 
@@ -8,6 +8,9 @@ package io.core55.drycherry;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.transaction.Transactional;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/meetups")
@@ -37,8 +40,42 @@ public class MeetupController {
      * @return a list of meetups
      */
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody Iterable<Meetup> index() {
+    public @ResponseBody
+    Iterable<Meetup> index() {
 
         return meetupRepository.findAll();
+    }
+
+    /**
+     * Update an existing meetup in the database
+     *
+     * @param newMeetup is the meetup object in JSON format
+     * @return return the updated object
+     */
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
+    @Transactional
+    public Meetup update(@RequestBody Meetup newMeetup, @PathVariable("id") long id) throws IOException {
+
+        Meetup updatedMeetup = meetupRepository.findOne(id);
+        updatedMeetup.setInitialLatitude(newMeetup.getInitialLatitude());
+        updatedMeetup.setInitialLongitude(newMeetup.getInitialLongitude());
+
+        return meetupRepository.save(updatedMeetup);
+    }
+
+    /**
+     * Delete an existing meetup in the database
+     */
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable("id") long id) {
+        meetupRepository.delete(id);
+    }
+
+    /**
+     * Show an existing meetup from the database given its id
+     */
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
+    public Meetup show(@PathVariable("id") long id) {
+        return meetupRepository.findOne(id);
     }
 }

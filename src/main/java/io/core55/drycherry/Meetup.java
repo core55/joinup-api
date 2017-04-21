@@ -11,13 +11,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
-
 @Entity
 public class Meetup {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private long id;
 
     /**
      * The initial longitude and latitude are determined by the user by centering the map during the creation phase.
@@ -32,7 +31,7 @@ public class Meetup {
     /**
      * Basic getters and setters to interact with the properties of the Meetup model.
      */
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 

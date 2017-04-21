@@ -6,14 +6,19 @@
 
 package io.core55.drycherry;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "meetup")
-public class Meetup implements Serializable {
+public class Meetup {
+
+    @ElementCollection(targetClass = User.class)
+    private Set<User> users;
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -45,6 +50,16 @@ public class Meetup implements Serializable {
 
     @Column(name = "pin_latitude")
     private Double pinLatitude;
+
+    @ManyToMany(mappedBy = "user")
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
 
     @PrePersist
     public void prePersist() {

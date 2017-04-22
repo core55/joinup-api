@@ -16,8 +16,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-//@NamedQuery(name = "Meetup.findByHash",
-//        query = "select m from Meetup m where m.hash = ?1")
 public class Meetup extends BaseEntity {
 
     @NotNull
@@ -28,6 +26,7 @@ public class Meetup extends BaseEntity {
     @NotNull
     private Integer zoomLevel;
 
+    @NotNull
     private String hash;
 
     private Double pinLongitude;
@@ -39,8 +38,8 @@ public class Meetup extends BaseEntity {
     @OneToMany(mappedBy = "meetup", cascade = CascadeType.ALL)
     private List<User> users;
 
-    private String createdTime;
-    private String updatedTime;
+    private String createdAt;
+    private String updatedAt;
 
     protected Meetup() {
         super();
@@ -112,23 +111,19 @@ public class Meetup extends BaseEntity {
         users.add(user);
     }
 
-    public String getCreatedTime() {
-        return createdTime;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public String getUpdatedTime() {
-        return updatedTime;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
-    //    @PrePersist
-//    public void prePersist() {
-//        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-//        this.createdTime = timeStamp;
-//        this.updatedTime = timeStamp;
-//    }
-//
-//    @PreUpdate
-//    public void preUpdate() {
-//        this.updatedTime = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-//    }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }

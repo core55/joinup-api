@@ -6,13 +6,12 @@
 
 package io.github.core55.core;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.Validator;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.event.ValidatingRepositoryEventListener;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
-
 
 @Configuration
 public class RestConfig extends RepositoryRestConfigurerAdapter {

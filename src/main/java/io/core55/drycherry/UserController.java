@@ -1,5 +1,7 @@
 package io.core55.drycherry;
 
+import io.github.core55.user.User;
+import io.github.core55.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 /**

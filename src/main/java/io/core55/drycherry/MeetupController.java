@@ -7,6 +7,10 @@
 
 package io.core55.drycherry;
 
+import io.github.core55.meetup.Meetup;
+import io.github.core55.meetup.MeetupRepository;
+import io.github.core55.user.User;
+import io.github.core55.user.UserRepository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 

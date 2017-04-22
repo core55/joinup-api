@@ -4,7 +4,7 @@
  * Created by S. Stefani on 2017-04-21.
  */
 
-package io.core55.drycherry;
+package io.github.core55.core;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

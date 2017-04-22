@@ -7,13 +7,15 @@
 
 package io.github.core55.meetup;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
+import io.github.core55.user.User;
 import io.github.core55.core.BaseEntity;
 
 @Entity
 //@NamedQuery(name = "Meetup.findByHash",
 //        query = "select m from Meetup m where m.hash = ?1")
-//@Table(name = "meetup")
 public class Meetup extends BaseEntity {
 
     private Double centerLongitude;
@@ -28,27 +30,91 @@ public class Meetup extends BaseEntity {
 
     private String name;
 
+    @OneToMany(mappedBy = "meetup", cascade = CascadeType.ALL)
+    private List<User> users;
+
     private String createdTime;
     private String updatedTime;
 
     protected Meetup() {
         super();
+        this.users = new ArrayList<>();
     }
 
-//    @ElementCollection(targetClass = User.class)
-//    private Set<User> users;
-//
-//    @ManyToMany(mappedBy = "user")
-//    public Set<User> getUsers() {
-//        return users;
-//    }
-//
-//    public void setUsers(Set<User> users) {
-//        this.users = users;
-//    }
+    public Double getCenterLongitude() {
+        return centerLongitude;
+    }
 
+    public void setCenterLongitude(Double centerLongitude) {
+        this.centerLongitude = centerLongitude;
+    }
 
-//    @PrePersist
+    public Double getCenterLatitude() {
+        return centerLatitude;
+    }
+
+    public void setCenterLatitude(Double centerLatitude) {
+        this.centerLatitude = centerLatitude;
+    }
+
+    public Integer getZoomLevel() {
+        return zoomLevel;
+    }
+
+    public void setZoomLevel(Integer zoomLevel) {
+        this.zoomLevel = zoomLevel;
+    }
+
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    public Double getPinLongitude() {
+        return pinLongitude;
+    }
+
+    public void setPinLongitude(Double pinLongitude) {
+        this.pinLongitude = pinLongitude;
+    }
+
+    public Double getPinLatitude() {
+        return pinLatitude;
+    }
+
+    public void setPinLatitude(Double pinLatitude) {
+        this.pinLatitude = pinLatitude;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void addUser(User user) {
+        user.setMeetup(this);
+        users.add(user);
+    }
+
+    public String getCreatedTime() {
+        return createdTime;
+    }
+
+    public String getUpdatedTime() {
+        return updatedTime;
+    }
+
+    //    @PrePersist
 //    public void prePersist() {
 //        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
 //        this.createdTime = timeStamp;

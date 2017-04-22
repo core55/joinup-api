@@ -7,27 +7,53 @@
 package io.github.core55.user;
 
 import javax.persistence.*;
+import io.github.core55.meetup.Meetup;
 import io.github.core55.core.BaseEntity;
 
 @Entity
-//@Table(name = "user")
 public class User extends BaseEntity {
-
-//    @ElementCollection(targetClass = Meetup.class)
-//    private Set<Meetup> meetups;
 
     private String nickname;
 
     private Double lastLongitude;
     private Double lastLatitude;
 
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(name = "users_meetups", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "meetup_id", referencedColumnName = "id"))
-//    public Set<Meetup> getMeetups(){
-//        return this.meetups;
-//    }
+    @ManyToOne
+    private Meetup meetup;
 
     protected User() {
         super();
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public Double getLastLongitude() {
+        return lastLongitude;
+    }
+
+    public void setLastLongitude(Double lastLongitude) {
+        this.lastLongitude = lastLongitude;
+    }
+
+    public Double getLastLatitude() {
+        return lastLatitude;
+    }
+
+    public void setLastLatitude(Double lastLatitude) {
+        this.lastLatitude = lastLatitude;
+    }
+
+    public Meetup getMeetup() {
+        return meetup;
+    }
+
+    public void setMeetup(Meetup meetup) {
+        this.meetup = meetup;
     }
 }

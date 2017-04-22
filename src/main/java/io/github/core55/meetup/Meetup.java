@@ -7,20 +7,25 @@
 
 package io.github.core55.meetup;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 import javax.persistence.*;
 import io.github.core55.user.User;
 import io.github.core55.core.BaseEntity;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 //@NamedQuery(name = "Meetup.findByHash",
 //        query = "select m from Meetup m where m.hash = ?1")
 public class Meetup extends BaseEntity {
 
+    @NotNull
     private Double centerLongitude;
+    @NotNull
     private Double centerLatitude;
 
+    @NotNull
     private Integer zoomLevel;
 
     private String hash;
@@ -28,6 +33,7 @@ public class Meetup extends BaseEntity {
     private Double pinLongitude;
     private Double pinLatitude;
 
+    @Size(min = 1, max = 50)
     private String name;
 
     @OneToMany(mappedBy = "meetup", cascade = CascadeType.ALL)

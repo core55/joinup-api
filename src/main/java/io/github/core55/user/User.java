@@ -9,13 +9,18 @@ package io.github.core55.user;
 import javax.persistence.*;
 import io.github.core55.meetup.Meetup;
 import io.github.core55.core.BaseEntity;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class User extends BaseEntity {
 
+    @Size(min = 1, max = 50)
     private String nickname;
 
+    @NotNull
     private Double lastLongitude;
+    @NotNull
     private Double lastLatitude;
 
     @ManyToOne

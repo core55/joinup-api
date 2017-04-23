@@ -11,6 +11,8 @@ import io.github.core55.meetup.Meetup;
 import io.github.core55.core.BaseEntity;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User extends BaseEntity {
@@ -23,8 +25,12 @@ public class User extends BaseEntity {
     @NotNull
     private Double lastLatitude;
 
-    @ManyToOne
-    private Meetup meetup;
+    @ManyToMany
+    @JoinTable(
+            name = "meetup_user",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "meetup_id")})
+    private List<Meetup> meetups = new ArrayList<>();
 
     protected User() {
         super();
@@ -54,11 +60,11 @@ public class User extends BaseEntity {
         this.lastLatitude = lastLatitude;
     }
 
-    public Meetup getMeetup() {
-        return meetup;
+    public List<Meetup> getMeetups() {
+        return meetups;
     }
 
-    public void setMeetup(Meetup meetup) {
-        this.meetup = meetup;
+    public void setMeetups(List<Meetup> meetups) {
+        this.meetups = meetups;
     }
 }

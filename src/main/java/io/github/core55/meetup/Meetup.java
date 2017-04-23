@@ -35,15 +35,14 @@ public class Meetup extends BaseEntity {
     @Size(min = 1, max = 50)
     private String name;
 
-    @OneToMany(mappedBy = "meetup", cascade = CascadeType.ALL)
-    private List<User> users;
+    @ManyToMany(mappedBy = "meetups")
+    private List<User> users = new ArrayList<>();
 
     private String createdAt;
     private String updatedAt;
 
     protected Meetup() {
         super();
-        this.users = new ArrayList<>();
     }
 
     public Double getCenterLongitude() {
@@ -106,9 +105,8 @@ public class Meetup extends BaseEntity {
         return users;
     }
 
-    public void addUser(User user) {
-        user.setMeetup(this);
-        users.add(user);
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     public String getCreatedAt() {

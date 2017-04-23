@@ -7,39 +7,36 @@
 
 package io.github.core55.meetup;
 
-import org.springframework.data.rest.webmvc.RepositoryRestController;
+import io.github.core55.user.User;
+import io.github.core55.user.UserRepository;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.data.rest.webmvc.RepositoryRestController;
 
 @RepositoryRestController
+@RequestMapping("api/meetups")
 public class MeetupController {
 
-    private final MeetupRepository meetupRepository;
+    @Autowired
+    private MeetupRepository meetupRepository;
 
     @Autowired
-    public MeetupController(MeetupRepository meetupRepository) {
-        this.meetupRepository = meetupRepository;
+    private UserRepository userRepository;
+
+    @RequestMapping(value = "/{hash}/users", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public @ResponseBody ResponseEntity<?> addUserToMap(@RequestBody User user, @PathVariable("hash") String hash) {
+
+        Meetup meetup = meetupRepository.findByHash(hash);
+        user.getMeetups().add(meetup);
+        meetup.getUsers().add(user);
+
+        userRepository.save(user);
+        meetupRepository.save(meetup);
+
+        Resource<User> resource = new Resource<>(user);
+
+        return ResponseEntity.ok(resource);
     }
-
-
-//    /**
-//     * Linking a user to a meetup
-//     */
-//    @RequestMapping(value = "/{hash}/users", method = RequestMethod.POST, produces = "application/json")
-//    public User addUser(@RequestBody User newUser, @PathVariable("hash") String hash) {
-//
-//        Meetup meetup = meetupRepository.findByHash(hash);
-//
-//        if(newUser.getId() != null){
-//            User currentUser = userRepository.findOne(newUser.getId());
-//            currentUser.setLastLongitude(newUser.getLastLongitude());
-//            currentUser.setLastLatitude(newUser.getLastLatitude());
-//            return userRepository.save(currentUser);
-//        } else {
-//            return userRepository.save(newUser);
-//        }
-//    }
 }

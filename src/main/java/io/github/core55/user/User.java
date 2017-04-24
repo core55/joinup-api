@@ -26,7 +26,7 @@ public class User extends BaseEntity {
     @NotNull
     private Double lastLatitude;
 
-    @NotNull
+//    @NotNull
     private String hash;
 
     private String createdAt;

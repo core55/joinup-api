@@ -36,6 +36,12 @@ public class User extends BaseEntity {
         super();
     }
 
+    public User(Double lastLongitude, Double lastLatitude) {
+        this();
+        this.lastLongitude = lastLongitude;
+        this.lastLatitude = lastLatitude;
+    }
+
     public String getNickname() {
         return nickname;
     }

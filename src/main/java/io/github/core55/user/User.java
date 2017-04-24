@@ -2,6 +2,7 @@
  * User.java
  *
  * Created by C. Seger on 2017-04-21.
+ * Edited by P. Gajland on 2017-04-24.
  */
 
 package io.github.core55.user;
@@ -24,6 +25,17 @@ public class User extends BaseEntity {
     private Double lastLongitude;
     @NotNull
     private Double lastLatitude;
+
+    @NotNull
+    private String hash;
+
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
 
     @ManyToMany
     @JoinTable(

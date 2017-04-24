@@ -6,13 +6,13 @@
 
 package io.github.core55.user;
 
+import java.util.List;
 import javax.persistence.*;
+import java.util.ArrayList;
 import io.github.core55.meetup.Meetup;
 import io.github.core55.core.BaseEntity;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 public class User extends BaseEntity {

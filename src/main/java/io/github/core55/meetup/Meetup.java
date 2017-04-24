@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import javax.persistence.*;
 import io.github.core55.user.User;
 import io.github.core55.core.BaseEntity;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Meetup extends BaseEntity {

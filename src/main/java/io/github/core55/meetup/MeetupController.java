@@ -25,7 +25,7 @@ public class MeetupController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping(value = "/{hash}/users", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    @RequestMapping(value = "/{hash}/users/save", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public @ResponseBody ResponseEntity<?> addUserToMap(@RequestBody User user, @PathVariable("hash") String hash) {
 
         Meetup meetup = meetupRepository.findByHash(hash);

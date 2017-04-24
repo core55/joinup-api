@@ -6,6 +6,8 @@
 
 package io.github.core55.core;
 
+import io.github.core55.user.User;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.validation.Validator;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,6 +26,11 @@ public class RestConfig extends RepositoryRestConfigurerAdapter {
     public void configureValidatingRepositoryEventListener(ValidatingRepositoryEventListener validatingListener) {
         validatingListener.addValidator("beforeCreate", validator);
         validatingListener.addValidator("beforeSave", validator);
+    }
+
+    @Override
+    public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
+        config.exposeIdsFor(User.class);
     }
 
 }

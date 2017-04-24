@@ -38,10 +38,12 @@ public class DatabaseLoader implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Meetup meetup = new Meetup(17.950170399999934, 59.404937999999994, 3);
         meetupEventHandler.setMeetupHash(meetup);
+        meetupEventHandler.setMeetupTimestampsOnCreate(meetup);
 
         User user = new User(59.402064, 17.955437);
         user.setNickname("Bob the Builder");
         userEventHandler.setUserHash(user);
+        userEventHandler.setUserTimestampsOnCreate(user);
 
         meetup.getUsers().add(user);
         user.getMeetups().add(meetup);

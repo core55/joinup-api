@@ -34,7 +34,7 @@ public class MeetupEventHandler {
     }
 
     @HandleBeforeSave
-    public void setMeetupsTimestampOnUpdate(Meetup meetup) {
+    public void setMeetupTimestampOnUpdate(Meetup meetup) {
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
         meetup.setUpdatedAt(timeStamp);
     }

@@ -1,0 +1,77 @@
+/**
+ * Location.java
+ *
+ * Created by S. Stefani on 2017-04-25.
+ */
+
+package io.github.core55.location;
+
+import javax.persistence.Entity;
+import io.github.core55.user.User;
+import javax.persistence.ManyToOne;
+import io.github.core55.core.BaseEntity;
+import javax.validation.constraints.NotNull;
+
+@Entity
+public class Location extends BaseEntity {
+
+    @NotNull
+    private Double longitude;
+    @NotNull
+    private Double latitude;
+
+    @ManyToOne
+    private User user;
+
+    private String createdAt;
+    private String updatedAt;
+
+    protected Location() {
+        super();
+    }
+
+    public Location(Double longitude, Double latitude) {
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+}

@@ -4,8 +4,8 @@ HTTP Verb|CRUD          |Address                        |Function
 :--------|--------------|:------------------------------|:---------------------------------------------------
 GET      |Read          |`api/users`                    |return all `user` objects
 POST     |Create        |`api/users`                    |add `user` object to DB
-GET      |Read          |`api/users/\<id>`              |return specific `user` object
-DELETE   |Delete        |`api/users/\<id>`              |delete specific `user` object
+GET      |Read          |`api/users/<id>`               |return specific `user` object
+DELETE   |Delete        |`api/users/<id>`               |delete specific `user` object
 GET      |Read          |`api/meetups`                  |return all `meetup` objects
 POST     |Create        |`api/meetups`                  |add `meetup` object to DB
 GET      |Read          |`api/meetups/<hash>`           |return specific `meetup` object

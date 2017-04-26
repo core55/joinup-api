@@ -1,3 +1,50 @@
+# dry-cherry API Spec
+
+## Intro
+
+RESTful API for handling users and meetups in the ***JoinMe*** App.
+
+Team website: [Core 55](https://core55.github.io/)
+
+## Installation 
+
+Clone with SSH: `git clone git@gits-15.sys.kth.se:core55/dry-cherry.git`
+
+## JSON Objects returned by API
+
+### User
+
+```json
+{
+         "id": 1,
+         "createdAt": "2017.04.26.15.05.43",
+         "updatedAt": "2017.04.26.15.05.43",
+         "nickname": "James",
+         "lastLongitude": 18.072311,
+         "lastLatitude": 59.316486,
+         "username": "d9e313a2ee584b5b9ed55fcc3c356afe"
+       }
+```
+
+### Meetups
+
+```json
+{
+  "id": 1,
+  "createdAt": "2017.04.26.15.05.43",
+  "updatedAt": "2017.04.26.15.05.43",
+  "centerLongitude": 18.071716,
+  "centerLatitude": 59.32683,
+  "zoomLevel": 13,
+  "hash": "fe2d29ad881d47b18eea2ac44b026a80",
+  "pinLongitude": null,
+  "pinLatitude": null,
+  "name": null
+}
+```
+
+## API endpoints
+
 ## Summary table of HTTP Methods for RESTful Services
 
 HTTP Verb|CRUD          |Address                        |Function

@@ -1,5 +1,13 @@
 # dry-cherry API Spec
 
+## Intro
+
+RESTful API for handling users and meetups in the *JoinMe* App.
+
+## Installation 
+
+Clone with SSH: `git clone git@gits-15.sys.kth.se:core55/dry-cherry.git`
+
 ## JSON Objects returned by API
 
 ### User

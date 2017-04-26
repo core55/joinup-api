@@ -1,3 +1,5 @@
+# dry-cherry API Spec
+
 ## JSON Objects returned by API
 
 ### User
@@ -15,6 +17,7 @@
 ```
 
 ### Meetups
+
 ```json
 {
   "id": 1,

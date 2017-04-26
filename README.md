@@ -2,7 +2,9 @@
 
 ## Intro
 
-RESTful API for handling users and meetups in the *JoinMe* App.
+RESTful API for handling users and meetups in the ***JoinMe*** App.
+
+Team website: [Core 55](https://core55.github.io/)
 
 ## Installation 
 

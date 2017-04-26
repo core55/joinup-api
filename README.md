@@ -61,9 +61,9 @@ HTTP Verb|CRUD          |Address                        |Function
 GET      |Read          |`api/meetups`                  |return all `meetup` objects
 POST     |Create        |`api/meetups`                  |add `meetup` object to DB
 GET      |Read          |`api/meetups/<hash>`           |return specific `meetup` object
-DELETE   |Delete        |`api/meetups/<hash>`           |delete specific `meetup` object
 PUT      |Update/Replace|`api/meetups/<hash>`           |substitute a `meetup` with a new `meetup` object
 PATCH    |Update/Modify |`api/meetups/<hash>`           |modify selected values of a `meetup` object
+DELETE   |Delete        |`api/meetups/<hash>`           |delete specific `meetup` object
 POST     |Create        |`api/meetups/<hash>/users/save`|save `user` object and attach to specified `meetup`
 GET      |Read          |`api/meetups/<hash>/users`     |return all `users` connected to a `meetup`
 GET      |Read          |`api/users`                    |return all `user` objects
@@ -91,11 +91,30 @@ Example request body:
     "zoomLevel": 13
 }
 ```
-Required fields: `centerLongitude`, `centerLatitude`, `zoomLevel`<br>
-Optional fields: `pinLongitude`, `pinLatitude`, `name`
+**Required fields:** `centerLongitude`, `centerLatitude`, `zoomLevel`<br>
+**Optional fields:** `pinLongitude`, `pinLatitude`, `name`
 
 ### Find all meetups
 
 `GET /api/meetups`
 
 Return a list of all the meetups stored in the database.
+
+### Find a meetup
+
+`GET /api/meetups/<hash>`
+
+Return the meetup specified by the value by the `<hash>`
+
+### Update a meetup 
+
+`PUT api/meetups/<hash>`
+
+Substitute the meetup specified by the `<hash>` value with a full new provided meetup. 
+The provided meetup should have all the fields of the meetup that is going to replace.
+
+### Update values of a meetup 
+
+`PATCH api/meetups/<hash>`
+
+Update only the fields corresponding to the provided values of the objects specified by the `<hash>`

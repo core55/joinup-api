@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import io.github.core55.meetup.Meetup;
 import io.github.core55.core.BaseEntity;
 import javax.validation.constraints.Size;
+import io.github.core55.location.Location;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -35,6 +36,9 @@ public class User extends BaseEntity {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "meetup_id")})
     private List<Meetup> meetups = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Location> locations;
 
     protected User() {
         super();
@@ -86,5 +90,13 @@ public class User extends BaseEntity {
 
     public void setHash(String hash) {
         this.hash = hash;
+    }
+
+    public List<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<Location> locations) {
+        this.locations = locations;
     }
 }

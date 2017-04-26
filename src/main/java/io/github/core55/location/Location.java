@@ -23,16 +23,15 @@ public class Location extends BaseEntity {
     @ManyToOne
     private User user;
 
-    private String createdAt;
-    private String updatedAt;
-
     protected Location() {
         super();
     }
 
-    public Location(Double longitude, Double latitude) {
+    public Location(Double longitude, Double latitude, User user) {
+        this();
         this.longitude = longitude;
         this.latitude = latitude;
+        this.user = user;
     }
 
     public Double getLongitude() {
@@ -57,21 +56,5 @@ public class Location extends BaseEntity {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }

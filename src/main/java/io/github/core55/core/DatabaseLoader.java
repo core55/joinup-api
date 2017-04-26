@@ -7,6 +7,7 @@
 
 package io.github.core55.core;
 
+import io.github.core55.location.LocationRepository;
 import io.github.core55.meetup.MeetupEventHandler;
 import io.github.core55.user.User;
 import io.github.core55.meetup.Meetup;
@@ -23,15 +24,17 @@ public class DatabaseLoader implements ApplicationRunner {
 
     private final MeetupRepository meetupRepository;
     private final UserRepository users;
+    private final LocationRepository locationRepository;
     MeetupEventHandler meetupEventHandler;
     UserEventHandler userEventHandler;
 
     @Autowired
-    public DatabaseLoader(MeetupRepository meetupRepository, UserRepository users) {
+    public DatabaseLoader(MeetupRepository meetupRepository, UserRepository users, LocationRepository locationRepository) {
         this.meetupRepository = meetupRepository;
+        this.locationRepository = locationRepository;
         this.users = users;
         this.meetupEventHandler = new MeetupEventHandler(meetupRepository);
-        this.userEventHandler = new UserEventHandler(users);
+        this.userEventHandler = new UserEventHandler(users, locationRepository);
     }
 
     @Override

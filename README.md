@@ -1,3 +1,25 @@
+## JSON Objects returned by API
+
+### Users
+
+```json
+{
+         "id": 1,
+         "createdAt": "2017.04.26.15.05.43",
+         "updatedAt": "2017.04.26.15.05.43",
+         "nickname": "James",
+         "lastLongitude": 18.072311,
+         "lastLatitude": 59.316486,
+         "username": "d9e313a2ee584b5b9ed55fcc3c356afe"
+       }
+```
+
+### Meetups
+
+### Locations
+
+## API endpoints
+
 ## Summary table of HTTP Methods for RESTful Services
 
 HTTP Verb|CRUD          |Address                        |Function

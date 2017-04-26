@@ -6,9 +6,7 @@
 
 package io.github.core55.meetup;
 
-import java.util.Date;
 import java.util.UUID;
-import java.text.SimpleDateFormat;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
@@ -28,15 +26,13 @@ public class MeetupEventHandler {
 
     @HandleBeforeCreate
     public void setMeetupTimestampsOnCreate(Meetup meetup) {
-        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-        meetup.setCreatedAt(timeStamp);
-        meetup.setUpdatedAt(timeStamp);
+        meetup.setCreatedAt();
+        meetup.setUpdatedAt();
     }
 
     @HandleBeforeSave
     public void setMeetupTimestampOnUpdate(Meetup meetup) {
-        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-        meetup.setUpdatedAt(timeStamp);
+        meetup.setUpdatedAt();
     }
 
     @HandleBeforeCreate

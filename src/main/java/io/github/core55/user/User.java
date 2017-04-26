@@ -26,19 +26,8 @@ public class User extends BaseEntity {
     @NotNull
     private Double lastLatitude;
 
-//    @NotNull
+    @NotNull
     private String hash;
-
-    private String createdAt;
-    private String updatedAt;
-
-    public String getHash() {
-        return hash;
-    }
-
-    public void setHash(String hash) {
-        this.hash = hash;
-    }
 
     @ManyToMany
     @JoinTable(
@@ -55,6 +44,8 @@ public class User extends BaseEntity {
         this();
         this.lastLongitude = lastLongitude;
         this.lastLatitude = lastLatitude;
+        setCreatedAt();
+        setUpdatedAt();
     }
 
     public String getNickname() {
@@ -81,27 +72,19 @@ public class User extends BaseEntity {
         this.lastLatitude = lastLatitude;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     public List<Meetup> getMeetups() {
         return meetups;
     }
 
     public void setMeetups(List<Meetup> meetups) {
         this.meetups = meetups;
+    }
+
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
     }
 }

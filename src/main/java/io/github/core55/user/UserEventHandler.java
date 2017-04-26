@@ -1,19 +1,17 @@
-package io.github.core55.user;
-
-import io.github.core55.meetup.Meetup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
-import org.springframework.data.rest.core.annotation.HandleBeforeSave;
-import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.stereotype.Component;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.UUID;
-
 /**
+ * UserEventHandler.java
+ *
  * Created by P. Gajland on 2017-04-24.
  */
+
+package io.github.core55.user;
+
+import java.util.UUID;
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.core.annotation.HandleBeforeSave;
+import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
+import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 
 @Component
 @RepositoryEventHandler
@@ -28,15 +26,13 @@ public class UserEventHandler {
 
     @HandleBeforeCreate
     public void setUserTimestampsOnCreate(User user) {
-        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-        user.setCreatedAt(timeStamp);
-        user.setUpdatedAt(timeStamp);
+        user.setCreatedAt();
+        user.setUpdatedAt();
     }
 
     @HandleBeforeSave
     public void setUserTimestampOnUpdate(User user) {
-        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-        user.setUpdatedAt(timeStamp);
+        user.setUpdatedAt();
     }
 
     @HandleBeforeCreate

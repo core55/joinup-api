@@ -11,7 +11,5 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.repository.CrudRepository;
 
 public interface MeetupRepository extends CrudRepository<Meetup, Long> {
-
     Meetup findByHash(@Param("hash") String hash);
-
 }

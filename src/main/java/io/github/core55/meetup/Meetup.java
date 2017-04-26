@@ -38,9 +38,6 @@ public class Meetup extends BaseEntity {
     @ManyToMany(mappedBy = "meetups")
     private List<User> users = new ArrayList<>();
 
-    private String createdAt;
-    private String updatedAt;
-
     protected Meetup() {
         super();
     }
@@ -50,6 +47,8 @@ public class Meetup extends BaseEntity {
         this.centerLongitude = centerLongitude;
         this.centerLatitude = centerLatitude;
         this.zoomLevel = zoomLevel;
+        setCreatedAt();
+        setUpdatedAt();
     }
 
     public Double getCenterLongitude() {
@@ -114,21 +113,5 @@ public class Meetup extends BaseEntity {
 
     public void setUsers(List<User> users) {
         this.users = users;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }

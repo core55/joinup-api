@@ -16,50 +16,86 @@ Clone with SSH: `git clone git@gits-15.sys.kth.se:core55/dry-cherry.git`
 
 ```json
 {
-         "id": 1,
-         "createdAt": "2017.04.26.15.05.43",
-         "updatedAt": "2017.04.26.15.05.43",
-         "nickname": "James",
-         "lastLongitude": 18.072311,
-         "lastLatitude": 59.316486,
-         "username": "d9e313a2ee584b5b9ed55fcc3c356afe"
-       }
-```
-
-### Meetups
-
-```json
-{
-  "id": 1,
-  "createdAt": "2017.04.26.15.05.43",
-  "updatedAt": "2017.04.26.15.05.43",
-  "centerLongitude": 18.071716,
-  "centerLatitude": 59.32683,
-  "zoomLevel": 13,
-  "hash": "fe2d29ad881d47b18eea2ac44b026a80",
-  "pinLongitude": null,
-  "pinLatitude": null,
-  "name": null
+    "id": 1,
+    "createdAt": "2017.04.26.15.05.43",
+    "updatedAt": "2017.04.26.15.05.43",
+    "nickname": "James",
+    "lastLongitude": 18.072311,
+    "lastLatitude": 59.316486,
+    "username": "d9e313a2ee584b5b9ed55fcc3c356afe"
 }
 ```
 
-## API endpoints
+### Meetup
+
+```json
+{
+    "id": 1,
+    "createdAt": "2017.04.26.15.05.43",
+    "updatedAt": "2017.04.26.15.05.43",
+    "centerLongitude": 18.071716,
+    "centerLatitude": 59.32683,
+    "zoomLevel": 13,
+    "hash": "fe2d29ad881d47b18eea2ac44b026a80",
+    "pinLongitude": 13.079516,
+    "pinLatitude": 24.547516,
+    "name": "Evening at theater"
+}
+```
+
+### Location
+```json
+{
+    "id": 1,
+    "createdAt": "2017.04.26.14.59.15",
+    "updatedAt": "2017.04.26.14.59.15",
+    "longitude": 18.072311,
+    "latitude": 59.316486
+}
+```
 
 ## Summary table of HTTP Methods for RESTful Services
 
 HTTP Verb|CRUD          |Address                        |Function
 :--------|--------------|:------------------------------|:---------------------------------------------------
-GET      |Read          |`api/users`                    |return all `user` objects
-POST     |Create        |`api/users`                    |add `user` object to DB
-GET      |Read          |`api/users/<id>`               |return specific `user` object
-DELETE   |Delete        |`api/users/<id>`               |delete specific `user` object
 GET      |Read          |`api/meetups`                  |return all `meetup` objects
 POST     |Create        |`api/meetups`                  |add `meetup` object to DB
 GET      |Read          |`api/meetups/<hash>`           |return specific `meetup` object
 DELETE   |Delete        |`api/meetups/<hash>`           |delete specific `meetup` object
+PUT      |Update/Replace|`api/meetups/<hash>`           |substitute a `meetup` with a new `meetup` object
+PATCH    |Update/Modify |`api/meetups/<hash>`           |modify selected values of a `meetup` object
 POST     |Create        |`api/meetups/<hash>/users/save`|save `user` object and attach to specified `meetup`
 GET      |Read          |`api/meetups/<hash>/users`     |return all `users` connected to a `meetup`
-PUT      |Update/Replace|**                             |**
-PATCH    |Update/Modify |**                             |**
+GET      |Read          |`api/users`                    |return all `user` objects
+POST     |Create        |`api/users`                    |add `user` object to DB
+GET      |Read          |`api/users/<id>`               |return specific `user` object
+PUT      |Update/Replace|`api/users/<id>`               |substitute a `user` with a new `user` object
+PATCH    |Update/Modify |`api/users/<id>`               |modify selected values of a `user` object
+DELETE   |Delete        |`api/users/<id>`               |delete specific `user` object
+GET      |Read          |`api/users/<id>/locations`     |return the ten last locations of a `user`
 
-** yet to be implemented
+
+## API endpoints
+
+### Create a meetup
+
+`POST /api/meetups`
+
+Store a new meetup in the database and return it.
+
+Example request body:
+```json
+{
+    "centerLongitude": 18.071716,
+    "centerLatitude": 59.32683,
+    "zoomLevel": 13
+}
+```
+Required fields: `centerLongitude`, `centerLatitude`, `zoomLevel`<br>
+Optional fields: `pinLongitude`, `pinLatitude`, `name`
+
+### Find all meetups
+
+`GET /api/meetups`
+
+Return a list of all the meetups stored in the database.

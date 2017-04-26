@@ -1,6 +1,6 @@
 ## JSON Objects returned by API
 
-### Users
+### User
 
 ```json
 {
@@ -15,8 +15,20 @@
 ```
 
 ### Meetups
-
-### Locations
+```json
+{
+  "id": 1,
+  "createdAt": "2017.04.26.15.05.43",
+  "updatedAt": "2017.04.26.15.05.43",
+  "centerLongitude": 18.071716,
+  "centerLatitude": 59.32683,
+  "zoomLevel": 13,
+  "hash": "fe2d29ad881d47b18eea2ac44b026a80",
+  "pinLongitude": null,
+  "pinLatitude": null,
+  "name": null
+}
+```
 
 ## API endpoints
 

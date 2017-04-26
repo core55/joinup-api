@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import io.github.core55.meetup.Meetup;
 import io.github.core55.core.BaseEntity;
 import javax.validation.constraints.Size;
+import io.github.core55.location.Location;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -26,19 +27,8 @@ public class User extends BaseEntity {
     @NotNull
     private Double lastLatitude;
 
-//    @NotNull
-    private String hash;
-
-    private String createdAt;
-    private String updatedAt;
-
-    public String getHash() {
-        return hash;
-    }
-
-    public void setHash(String hash) {
-        this.hash = hash;
-    }
+    @NotNull
+    private String username;
 
     @ManyToMany
     @JoinTable(
@@ -46,6 +36,9 @@ public class User extends BaseEntity {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "meetup_id")})
     private List<Meetup> meetups = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Location> locations;
 
     protected User() {
         super();
@@ -55,6 +48,8 @@ public class User extends BaseEntity {
         this();
         this.lastLongitude = lastLongitude;
         this.lastLatitude = lastLatitude;
+        setCreatedAt();
+        setUpdatedAt();
     }
 
     public String getNickname() {
@@ -81,27 +76,27 @@ public class User extends BaseEntity {
         this.lastLatitude = lastLatitude;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     public List<Meetup> getMeetups() {
         return meetups;
     }
 
     public void setMeetups(List<Meetup> meetups) {
         this.meetups = meetups;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public List<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<Location> locations) {
+        this.locations = locations;
     }
 }

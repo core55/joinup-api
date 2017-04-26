@@ -7,9 +7,11 @@
 
 package io.github.core55.meetup;
 
+import io.github.core55.location.LocationRepository;
 import io.github.core55.user.User;
-import io.github.core55.user.UserRepository;
 import org.springframework.hateoas.Resource;
+import io.github.core55.user.UserRepository;
+import io.github.core55.user.UserEventHandler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +27,16 @@ public class MeetupController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private LocationRepository locationRepository;
+
     @RequestMapping(value = "/{hash}/users/save", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    public @ResponseBody ResponseEntity<?> addUserToMap(@RequestBody User user, @PathVariable("hash") String hash) {
+    public @ResponseBody
+    ResponseEntity<?> addUserToMap(@RequestBody User user, @PathVariable("hash") String hash) {
+
+        setUserHash(user);
+        user.setUpdatedAt();
+        user.setCreatedAt();
 
         Meetup meetup = meetupRepository.findByHash(hash);
         user.getMeetups().add(meetup);
@@ -38,5 +48,10 @@ public class MeetupController {
         Resource<User> resource = new Resource<>(user);
 
         return ResponseEntity.ok(resource);
+    }
+
+    private void setUserHash(User user) {
+        UserEventHandler handler = new UserEventHandler(userRepository, locationRepository);
+        handler.setUserHash(user);
     }
 }

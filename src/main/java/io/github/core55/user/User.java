@@ -28,7 +28,7 @@ public class User extends BaseEntity {
     private Double lastLatitude;
 
     @NotNull
-    private String hash;
+    private String username;
 
     @ManyToMany
     @JoinTable(
@@ -84,12 +84,12 @@ public class User extends BaseEntity {
         this.meetups = meetups;
     }
 
-    public String getHash() {
-        return hash;
+    public String getUsername() {
+        return username;
     }
 
-    public void setHash(String hash) {
-        this.hash = hash;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public List<Location> getLocations() {

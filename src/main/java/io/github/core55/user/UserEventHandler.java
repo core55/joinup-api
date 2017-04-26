@@ -70,7 +70,7 @@ public class UserEventHandler {
 
     @HandleBeforeCreate
     public void setUserHash(User user) {
-        user.setHash(generateHash());
+        user.setUsername(generateHash());
     }
 
     private String generateHash() {
@@ -80,7 +80,7 @@ public class UserEventHandler {
 
         while (!flag && count < 10) {
             hash = UUID.randomUUID().toString().replaceAll("-", "");
-            User user = userRepository.findByHash(hash);
+            User user = userRepository.findByUsername(hash);
             if (user == null) {
                 flag = true;
                 return hash;

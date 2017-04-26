@@ -11,5 +11,5 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends CrudRepository<User, Long> {
-    User findByHash(@Param("hash") String hash);
+    User findByUsername(@Param("username") String username);
 }

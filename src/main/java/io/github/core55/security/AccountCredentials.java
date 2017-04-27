@@ -3,6 +3,7 @@ package io.github.core55.security;
 /**
  * Created by P. Gajland on 2017-04-27.
  */
+
 public class AccountCredentials {
 
     private String username;

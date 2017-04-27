@@ -30,6 +30,8 @@ public class User extends BaseEntity {
     @NotNull
     private String username;
 
+    private String authenticationToken;
+
     @ManyToMany
     @JoinTable(
             name = "meetup_user",
@@ -90,6 +92,14 @@ public class User extends BaseEntity {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getAuthenticationToken() {
+        return authenticationToken;
+    }
+
+    public void setAuthenticationToken(String authenticationToken) {
+        this.authenticationToken = authenticationToken;
     }
 
     public List<Location> getLocations() {

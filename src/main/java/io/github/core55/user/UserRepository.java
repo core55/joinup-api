@@ -12,4 +12,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends CrudRepository<User, Long> {
     User findByUsername(@Param("username") String username);
+    User findByAuthenticationToken(@Param("authenticationToken") String authenticationToken);
 }

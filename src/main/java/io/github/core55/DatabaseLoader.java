@@ -44,7 +44,7 @@ public class DatabaseLoader implements ApplicationRunner {
 
         User Phillip = new User(18.072311, 59.316486);
         Phillip.setNickname("Phillip");
-        userEventHandler.setUserHash(Phillip);
+        Phillip.setUsername("phillip@gmail.com");
         meetup.getUsers().add(Phillip);
         Phillip.getMeetups().add(meetup);
 

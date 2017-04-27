@@ -1,4 +1,4 @@
-package io.github.core55.security;
+package io.github.core55.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,11 +40,8 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
     }
 
     @Override
-    protected void successfulAuthentication(
-            HttpServletRequest req,
-            HttpServletResponse res, FilterChain chain,
-            Authentication auth) throws IOException, ServletException {
-        TokenAuthenticationService
-                .addAuthentication(res, auth.getName());
+    protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth)
+            throws IOException, ServletException {
+        TokenAuthenticationService.addAuthentication(res, auth.getName());
     }
 }

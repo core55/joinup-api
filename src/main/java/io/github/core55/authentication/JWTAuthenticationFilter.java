@@ -1,4 +1,4 @@
-package io.github.core55.security;
+package io.github.core55.authentication;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -17,15 +17,11 @@ import java.io.IOException;
 public class JWTAuthenticationFilter extends GenericFilterBean {
 
     @Override
-    public void doFilter(ServletRequest request,
-                         ServletResponse response,
-                         FilterChain filterChain)
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
-        Authentication authentication = TokenAuthenticationService
-                .getAuthentication((HttpServletRequest) request);
+        Authentication authentication = TokenAuthenticationService.getAuthentication((HttpServletRequest) request);
 
-        SecurityContextHolder.getContext()
-                .setAuthentication(authentication);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request, response);
     }
 }

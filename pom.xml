@@ -52,7 +52,7 @@
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
 
-        <!-- Spring Security and JSON Web Tokens-->
+        <!-- Spring Security and JSON Web Tokens -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>

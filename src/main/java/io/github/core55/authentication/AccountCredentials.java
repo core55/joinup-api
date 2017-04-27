@@ -1,4 +1,4 @@
-package io.github.core55.security;
+package io.github.core55.authentication;
 
 /**
  * Created by P. Gajland on 2017-04-27.

@@ -1,4 +1,4 @@
-package io.github.core55.security;
+package io.github.core55.authentication;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

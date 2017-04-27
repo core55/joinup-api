@@ -5,7 +5,7 @@
  * Edited by P. Gajland on 2017-04-24.
  */
 
-package io.github.core55.core;
+package io.github.core55;
 
 import io.github.core55.location.LocationRepository;
 import io.github.core55.meetup.MeetupEventHandler;

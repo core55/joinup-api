@@ -1,5 +1,7 @@
-package io.github.core55.security;
+package io.github.core55.config;
 
+import io.github.core55.security.JWTAuthenticationFilter;
+import io.github.core55.security.JWTLoginFilter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

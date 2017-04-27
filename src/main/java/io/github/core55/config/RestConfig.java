@@ -4,7 +4,7 @@
  * Created by S. Stefani on 2017-04-22.
  */
 
-package io.github.core55.core;
+package io.github.core55.config;
 
 import io.github.core55.user.User;
 import io.github.core55.meetup.Meetup;

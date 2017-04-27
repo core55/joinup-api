@@ -4,7 +4,7 @@
  * Created by S. Stefani on 2017-04-21.
  */
 
-package io.github.core55.core;
+package io.github.core55.config;
 
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.context.annotation.Bean;

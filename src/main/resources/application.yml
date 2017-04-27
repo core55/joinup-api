@@ -1,0 +1,13 @@
+spring:
+  data:
+    rest:
+      base-path: /api
+#  jpa:
+#    hibernate:
+#      ddl-auto: create
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/drycherry_dev?verifyServerCertificate=false&useSSL=false&requireSSL=false
+#    username: drycherry
+#    password: secret
+#server:
+#  port: 8090

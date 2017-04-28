@@ -7,17 +7,16 @@ import io.github.core55.user.User;
 import io.github.core55.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.UUID;
 
 /**
  * Created by S. Stefani on 2017-04-27.
  */
+
 @RestController
 @RequestMapping("api/login")
 public class LoginController {
@@ -67,7 +66,13 @@ public class LoginController {
     private String generateLink() {
         String initial = UUID.randomUUID().toString().replaceAll("-", "");
         String end = UUID.randomUUID().toString().replaceAll("-", "");
-
-        return initial + end;
+        String time = new Date().toString();
+        String encTime = "";
+        try {
+            encTime = AESenc.encrypt(time);
+        } catch (Exception error) {
+            System.out.println("Error: AES failed");
+        }
+        return initial + end + encTime;
     }
 }

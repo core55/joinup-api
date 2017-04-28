@@ -1,5 +1,8 @@
 package io.github.core55.authentication;
 
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import io.github.core55.core.StringResponse;
 import io.github.core55.email.EmailService;
 import io.github.core55.email.MailContentBuilder;
@@ -7,12 +10,15 @@ import io.github.core55.user.User;
 import io.github.core55.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Collections;
 import java.util.UUID;
 
 /**
@@ -25,6 +31,8 @@ public class LoginController {
     private final JavaMailSender javaMailSender;
     private final MailContentBuilder mailContentBuilder;
     private final UserRepository userRepository;
+    private static final JsonFactory jsonFactory = new JacksonFactory();
+    private static final NetHttpTransport netHttpTransport = new NetHttpTransport();
 
     @Autowired
     public LoginController(JavaMailSender javaMailSender, MailContentBuilder mailContentBuilder, UserRepository userRepository) {
@@ -58,10 +66,33 @@ public class LoginController {
         User user = userRepository.findByAuthenticationToken(token);
         if (user != null) {
             TokenAuthenticationService.addAuthentication(res, user.getUsername());
-            return new StringResponse("User authenticated successfully!");
+            return new StringResponse("User " + user.getUsername() + " authenticated successfully!");
         } else {
-            return new StringResponse("Couldn't authenticate the user! " + token);
+            return new StringResponse("Couldn't authenticate the user!");
         }
+    }
+
+    @RequestMapping(value = "/token", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public StringResponse authenticateWithGoogleToken(@RequestBody GoogleToken googleToken, HttpServletResponse res) throws GeneralSecurityException, IOException {
+
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(netHttpTransport, jsonFactory)
+                .setAudience(Collections.singletonList("CLIENT_ID"))
+                .build();
+
+        // (Receive idTokenString by HTTPS POST)
+        GoogleIdToken idToken = verifier.verify(googleToken.getIdTokenString());
+        if (idToken != null) {
+            Payload payload = idToken.getPayload();
+
+            // Get profile information from payload
+            String username = payload.getEmail();
+
+            TokenAuthenticationService.addAuthentication(res, username);
+            return new StringResponse("User " + username + " authenticated successfully!");
+        } else {
+            return new StringResponse("Couldn't authenticate the user! ");
+        }
+
     }
 
     private String generateLink() {

@@ -1,9 +1,3 @@
-/**
- * MeetupEventHandler.java
- * <p>
- * Created by S. Stefani on 2017-04-22.
- */
-
 package io.github.core55.meetup;
 
 import org.springframework.stereotype.Component;
@@ -23,17 +17,26 @@ public class MeetupEventHandler {
         this.meetupRepository = meetupRepository;
     }
 
+    /**
+     * Set createdAt and updatedAt fields when a Meetup entity is created.
+     */
     @HandleBeforeCreate
     public void setMeetupTimestampsOnCreate(Meetup meetup) {
         meetup.setCreatedAt();
         meetup.setUpdatedAt();
     }
 
+    /**
+     * Set updatedAt field when a Meetup entity is updated.
+     */
     @HandleBeforeSave
     public void setMeetupTimestampOnUpdate(Meetup meetup) {
         meetup.setUpdatedAt();
     }
 
+    /**
+     * Set hash field when a Meetup entity is created.
+     */
     @HandleBeforeCreate
     public void setMeetupHash(Meetup meetup) {
         MeetupService meetupService = new MeetupService(meetupRepository);

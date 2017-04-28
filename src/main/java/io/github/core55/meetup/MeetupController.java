@@ -1,18 +1,9 @@
-/**
- * Meetup.java
- *
- * Created by S. Stefani on 2017-04-20.
- * Edited by P. Gajland on 2017-04-21.
- */
-
 package io.github.core55.meetup;
 
-import io.github.core55.location.LocationRepository;
 import io.github.core55.user.User;
 import io.github.core55.user.UserService;
 import org.springframework.hateoas.Resource;
 import io.github.core55.user.UserRepository;
-import io.github.core55.user.UserEventHandler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +19,11 @@ public class MeetupController {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Save a new User entity and link it to a specific Meetup.
+     */
     @RequestMapping(value = "/{hash}/users/save", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    public @ResponseBody
-    ResponseEntity<?> addUserToMap(@RequestBody User user, @PathVariable("hash") String hash) {
+    public @ResponseBody ResponseEntity<?> addUserToMap(@RequestBody User user, @PathVariable("hash") String hash) {
 
         UserService userService = new UserService(userRepository);
         user.setUsername(userService.generateHash());

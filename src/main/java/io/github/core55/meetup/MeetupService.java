@@ -1,12 +1,8 @@
 package io.github.core55.meetup;
 
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.UUID;
-
-/**
- * Created by S. Stefani on 2017-04-27.
- */
 public class MeetupService {
 
     @Autowired
@@ -16,6 +12,11 @@ public class MeetupService {
         this.meetupRepository = meetupRepository;
     }
 
+    /**
+     * Generate a unique hash for a Meetup entity.
+     *
+     * @return the newly created hash.
+     */
     public String generateHash() {
         int count = 0;
         boolean flag = false;

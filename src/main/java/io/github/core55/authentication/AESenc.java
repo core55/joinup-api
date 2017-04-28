@@ -1,15 +1,10 @@
 package io.github.core55.authentication;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
-
-/**
- * Created by P. Gajland on 2017-04-28.
- */
+import javax.crypto.Cipher;
+import sun.misc.BASE64Encoder;
+import sun.misc.BASE64Decoder;
+import javax.crypto.spec.SecretKeySpec;
 
 public class AESenc {
 
@@ -17,14 +12,26 @@ public class AESenc {
     private static final byte[] keyValue =
             new byte[]{'T', 'h', 'e', 'B', 'e', 's', 't', 'S', 'e', 'c', 'r', 'e', 't', 'K', 'e', 'y'};
 
-    public static String encrypt(String Data) throws Exception {
+    /**
+     * Encrypt a string with AES algorithm.
+     *
+     * @param data is a string
+     * @return the encrypted string
+     */
+    public static String encrypt(String data) throws Exception {
         Key key = generateKey();
         Cipher c = Cipher.getInstance(ALGO);
         c.init(Cipher.ENCRYPT_MODE, key);
-        byte[] encVal = c.doFinal(Data.getBytes());
+        byte[] encVal = c.doFinal(data.getBytes());
         return new BASE64Encoder().encode(encVal);
     }
 
+    /**
+     * Decrypt a string with AES algorithm.
+     *
+     * @param encryptedData is a string
+     * @return the decrypted string
+     */
     public static String decrypt(String encryptedData) throws Exception {
         Key key = generateKey();
         Cipher c = Cipher.getInstance(ALGO);
@@ -34,6 +41,9 @@ public class AESenc {
         return new String(decValue);
     }
 
+    /**
+     * Generate a new encryption key.
+     */
     private static Key generateKey() throws Exception {
         return new SecretKeySpec(keyValue, ALGO);
     }

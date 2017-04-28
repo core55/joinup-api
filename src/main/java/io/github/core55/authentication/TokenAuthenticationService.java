@@ -34,9 +34,10 @@ public class TokenAuthenticationService {
     }
 
     /**
-     * Retrieve the 
-     * @param req
-     * @return
+     * Retrieve and authenticate the user owner from the JWT.
+     *
+     * @param req is the request message with a JWT in the header
+     * @return the authenticated user
      */
     static Authentication getAuthentication(HttpServletRequest req) {
         String token = req.getHeader(HEADER_STRING);

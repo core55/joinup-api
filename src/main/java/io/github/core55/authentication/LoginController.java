@@ -126,6 +126,6 @@ public class LoginController {
         } catch (Exception error) {
             System.out.println("Error: AES failed");
         }
-        return initial + end + encTime;
+        return initial + end + "." + encTime;
     }
 }

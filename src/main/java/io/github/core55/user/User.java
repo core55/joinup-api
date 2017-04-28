@@ -1,10 +1,3 @@
-/**
- * User.java
- *
- * Created by C. Seger on 2017-04-21.
- * Edited by P. Gajland on 2017-04-24.
- */
-
 package io.github.core55.user;
 
 import java.util.List;

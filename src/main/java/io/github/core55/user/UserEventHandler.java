@@ -1,9 +1,3 @@
-/**
- * UserEventHandler.java
- * <p>
- * Created by P. Gajland on 2017-04-24.
- */
-
 package io.github.core55.user;
 
 import org.springframework.stereotype.Component;
@@ -27,26 +21,40 @@ public class UserEventHandler {
         this.locationRepository = locationRepository;
     }
 
+    /**
+     * Set createdAt and updatedAt fields when a User entity is created.
+     */
     @HandleBeforeCreate
     public void setUserTimestampsOnCreate(User user) {
         user.setCreatedAt();
         user.setUpdatedAt();
     }
 
+    /**
+     * Set updatedAt field when a User entity is updated.
+     */
     @HandleBeforeSave
     public void setUserTimestampOnUpdate(User user) {
         user.setUpdatedAt();
     }
 
+    /**
+     * Set hash field when a User entity is created.
+     */
     @HandleBeforeCreate
     public void setUserHash(User user) {
         UserService userService = new UserService(userRepository);
         user.setUsername(userService.generateHash());
     }
 
+    /**
+     * Add latest user position as a Location entity if new coordinates are provided.
+     */
     @HandleBeforeSave
     public void syncLocationListOnUpdate(User user) {
-        LocationService locationService = new LocationService(locationRepository);
-        locationService.updateUserLocationList(user);
+        if (user.getLastLatitude() != null && user.getLastLongitude() != null) {
+            LocationService locationService = new LocationService(locationRepository);
+            locationService.updateUserLocationList(user);
+        }
     }
 }

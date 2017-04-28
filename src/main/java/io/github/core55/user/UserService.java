@@ -1,13 +1,8 @@
 package io.github.core55.user;
 
-import io.github.core55.location.LocationRepository;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.UUID;
-
-/**
- * Created by S. Stefani on 2017-04-27.
- */
 public class UserService {
 
     private final UserRepository userRepository;
@@ -17,6 +12,11 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Generate a unique hash for a User entity which is set as initial username.
+     *
+     * @return the newly created hash.
+     */
     public String generateHash() {
         int count = 0;
         boolean flag = false;

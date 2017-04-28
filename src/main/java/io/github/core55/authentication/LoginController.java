@@ -16,14 +16,18 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
+
+import java.util.Date;
 import java.util.UUID;
 
 /**
  * Created by S. Stefani on 2017-04-27.
  */
+
 @RestController
 @RequestMapping("api/login")
 public class LoginController {
@@ -102,6 +106,13 @@ public class LoginController {
         String initial = UUID.randomUUID().toString().replaceAll("-", "");
         String end = UUID.randomUUID().toString().replaceAll("-", "");
 
-        return initial + end + ".";
+        String time = new Date().toString();
+        String encTime = "";
+        try {
+            encTime = AESenc.encrypt(time);
+        } catch (Exception error) {
+            System.out.println("Error: AES failed");
+        }
+        return initial + end + encTime;
     }
 }

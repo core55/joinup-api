@@ -1,7 +1,3 @@
-/**
- * Created by S. Stefani on 2017-04-27.
- */
-
 package io.github.core55.location;
 
 import io.github.core55.user.User;
@@ -16,6 +12,12 @@ public class LocationService {
         this.locationRepository = locationRepository;
     }
 
+    /**
+     * When the position of a user is updated, a new Location needs to be linked to the user. However only the last ten
+     * positions of the users are tracked and can be retrieved at /users/{id}⁄locations.
+     *
+     * @param user with updated fields lastLongitude and lastLatitude
+     */
     public void updateUserLocationList(User user) {
         Location newLocation = new Location(user.getLastLongitude(), user.getLastLatitude(), user);
         newLocation.setCreatedAt();

@@ -1,9 +1,3 @@
-/**
- * Location.java
- *
- * Created by S. Stefani on 2017-04-25.
- */
-
 package io.github.core55.location;
 
 import javax.persistence.Entity;

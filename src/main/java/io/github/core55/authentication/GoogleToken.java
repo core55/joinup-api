@@ -4,7 +4,7 @@ package io.github.core55.authentication;
  * Created by S. Stefani on 2017-04-28.
  */
 public class GoogleToken {
-    public String idTokenString;
+    private String idTokenString;
 
     public String getIdTokenString() {
         return idTokenString;

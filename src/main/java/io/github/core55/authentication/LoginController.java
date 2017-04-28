@@ -44,7 +44,7 @@ public class LoginController {
     @RequestMapping(value = "/send", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public StringResponse sendLoginEmail(@RequestBody User user) {
 
-        String token = generateLink();
+        String token = generateToken();
         User retrievedUser = userRepository.findByUsername(user.getUsername());
 
         if (retrievedUser == null) {
@@ -65,6 +65,9 @@ public class LoginController {
 
         User user = userRepository.findByAuthenticationToken(token);
         if (user != null) {
+            user.setAuthenticationToken(null);
+            userRepository.save(user);
+
             TokenAuthenticationService.addAuthentication(res, user.getUsername());
             return new StringResponse("User " + user.getUsername() + " authenticated successfully!");
         } else {
@@ -95,10 +98,10 @@ public class LoginController {
 
     }
 
-    private String generateLink() {
+    private String generateToken() {
         String initial = UUID.randomUUID().toString().replaceAll("-", "");
         String end = UUID.randomUUID().toString().replaceAll("-", "");
 
-        return initial + end;
+        return initial + end + ".";
     }
 }

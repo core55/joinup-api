@@ -1,9 +1,3 @@
-/**
- * WebConfig.java
- *
- * Created by S. Stefani on 2017-04-21.
- */
-
 package io.github.core55.config;
 
 import org.springframework.web.filter.CorsFilter;
@@ -16,6 +10,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class WebConfig {
 
+    /**
+     * A Spring API does not accept by default requests from domains other than the one where is located. In order to
+     * allow requests from other domains it is necessary to enable CORS (Cross Origin Resource Sharing). The bean
+     * corsFilter is used to enable CORS for different HTTP methods.
+     */
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

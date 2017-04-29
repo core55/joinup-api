@@ -1,6 +1,7 @@
 package io.github.core55.config;
 
 import io.github.core55.user.User;
+import io.github.core55.user.UserRepository;
 import org.springframework.http.HttpMethod;
 import io.github.core55.user.DetailsService;
 import io.github.core55.authentication.JWTLoginFilter;
@@ -22,6 +23,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DetailsService userDetailsService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     /**
      * When Spring Security is enabled it is important to define which routes can be accessed and which authentication
      * procedures needs to be applied. This API uses two highly customised authentication approaches (magic link and
@@ -35,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/login/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager()),
+                .addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager(), userRepository),
                         UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JWTAuthenticationFilter(),
                         UsernamePasswordAuthenticationFilter.class);

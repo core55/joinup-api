@@ -16,14 +16,17 @@ import org.springframework.http.ResponseEntity;
 import io.github.core55.email.MailContentBuilder;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
 import io.github.core55.tokens.MagicLinkTokenRepository;
 import org.springframework.mail.javamail.JavaMailSender;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 @RestController
 @RequestMapping("api/login")
@@ -85,6 +88,9 @@ public class LoginController {
         if (user != null) {
             magicLinkTokenRepository.delete(magicLinkToken);
 
+            Authentication auth = new UsernamePasswordAuthenticationToken(user.getUsername(), null, Collections.emptyList());
+            SecurityContextHolder.getContext().setAuthentication(auth);
+
             TokenAuthenticationService.addAuthentication(res, user.getUsername());
             Resource<User> resource = new Resource<>(user);
             return ResponseEntity.ok(resource);
@@ -100,7 +106,7 @@ public class LoginController {
      */
     @RequestMapping(value = "/token", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public @ResponseBody ResponseEntity<?> authenticateWithGoogleToken(@RequestBody GoogleToken googleToken, HttpServletResponse res)
-            throws GeneralSecurityException, IOException, EntityNotFoundException{
+            throws GeneralSecurityException, IOException, EntityNotFoundException {
 
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(netHttpTransport, jsonFactory)
                 .setAudience(Collections.singletonList("64814529919-8a9dch2j1lhpsau1sql0htrm67h69ijn.apps.googleusercontent.com"))
@@ -110,9 +116,12 @@ public class LoginController {
         if (idToken != null) {
             Payload payload = idToken.getPayload();
             String username = payload.getEmail();
+            User user = userRepository.findByUsername(username);
+
+            Authentication auth = new UsernamePasswordAuthenticationToken(user.getUsername(), null, Collections.emptyList());
+            SecurityContextHolder.getContext().setAuthentication(auth);
 
             TokenAuthenticationService.addAuthentication(res, username);
-            User user = userRepository.findByUsername(username);
             Resource<User> resource = new Resource<>(user);
             return ResponseEntity.ok(resource);
         } else {

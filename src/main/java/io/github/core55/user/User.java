@@ -8,8 +8,8 @@ import io.github.core55.core.BaseEntity;
 import javax.validation.constraints.Size;
 import io.github.core55.location.Location;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.constraints.NotNull;
 
@@ -28,8 +28,6 @@ public class User extends BaseEntity {
 
     @NotNull
     private String username;
-
-    private String authenticationToken;
 
     @JsonIgnore
     private String password;
@@ -97,14 +95,6 @@ public class User extends BaseEntity {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getAuthenticationToken() {
-        return authenticationToken;
-    }
-
-    public void setAuthenticationToken(String authenticationToken) {
-        this.authenticationToken = authenticationToken;
     }
 
     public List<Location> getLocations() {

@@ -1,21 +1,14 @@
-/**
- * DatabaseLoader.java
- *
- * Created by S. Stefani on 2017-04-22.
- * Edited by P. Gajland on 2017-04-24.
- */
-
 package io.github.core55;
 
-import io.github.core55.location.LocationRepository;
-import io.github.core55.meetup.MeetupEventHandler;
 import io.github.core55.user.User;
 import io.github.core55.meetup.Meetup;
-import io.github.core55.user.UserEventHandler;
 import io.github.core55.user.UserRepository;
+import io.github.core55.user.UserEventHandler;
 import io.github.core55.meetup.MeetupRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.boot.ApplicationRunner;
+import io.github.core55.meetup.MeetupEventHandler;
+import io.github.core55.location.LocationRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -37,6 +30,9 @@ public class DatabaseLoader implements ApplicationRunner {
         this.userEventHandler = new UserEventHandler(users, locationRepository);
     }
 
+    /**
+     * Populate the database with some data for testing purpose.
+     */
     @Override
     public void run(ApplicationArguments args) throws Exception {
         Meetup meetup = new Meetup(18.071716, 59.326830, 13);

@@ -1,13 +1,10 @@
 package io.github.core55.email;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- * Created by S. Stefani on 2017-04-27.
- */
 @Service
 public class MailContentBuilder {
 

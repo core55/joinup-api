@@ -1,8 +1,5 @@
 package io.github.core55.core;
 
-/**
- * Created by S. Stefani on 2017-04-27.
- */
 public class StringResponse {
     private String response;
 

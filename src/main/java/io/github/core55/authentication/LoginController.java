@@ -1,6 +1,5 @@
 package io.github.core55.authentication;
 
-import java.util.Date;
 import java.util.UUID;
 import java.io.IOException;
 import java.util.Collections;
@@ -8,13 +7,16 @@ import io.github.core55.user.User;
 import io.github.core55.email.EmailService;
 import io.github.core55.core.StringResponse;
 import io.github.core55.user.UserRepository;
+import org.springframework.hateoas.Resource;
 import java.security.GeneralSecurityException;
+import io.github.core55.tokens.MagicLinkToken;
 import com.google.api.client.json.JsonFactory;
-
-import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.http.ResponseEntity;
 import io.github.core55.email.MailContentBuilder;
+import javax.persistence.EntityNotFoundException;
 import org.springframework.web.bind.annotation.*;
+import io.github.core55.tokens.MagicLinkTokenRepository;
 import org.springframework.mail.javamail.JavaMailSender;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -28,16 +30,18 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 public class LoginController {
 
     private final JavaMailSender javaMailSender;
-    private final MailContentBuilder mailContentBuilder;
     private final UserRepository userRepository;
+    private final MailContentBuilder mailContentBuilder;
+    private final MagicLinkTokenRepository magicLinkTokenRepository;
     private static final JsonFactory jsonFactory = new JacksonFactory();
     private static final NetHttpTransport netHttpTransport = new NetHttpTransport();
 
     @Autowired
-    public LoginController(JavaMailSender javaMailSender, MailContentBuilder mailContentBuilder, UserRepository userRepository) {
+    public LoginController(JavaMailSender javaMailSender, MailContentBuilder mailContentBuilder, UserRepository userRepository, MagicLinkTokenRepository magicLinkTokenRepository) {
         this.javaMailSender = javaMailSender;
         this.mailContentBuilder = mailContentBuilder;
         this.userRepository = userRepository;
+        this.magicLinkTokenRepository = magicLinkTokenRepository;
     }
 
     /**
@@ -48,18 +52,18 @@ public class LoginController {
     @RequestMapping(value = "/send", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public StringResponse sendLoginEmail(@RequestBody User user) throws EntityNotFoundException {
 
-        String token = generateToken();
+        String tokenValue = generateToken();
         User retrievedUser = userRepository.findByUsername(user.getUsername());
 
         if (retrievedUser == null) {
             throw new EntityNotFoundException("Couldn't find the user " + user.getUsername());
         }
 
-        retrievedUser.setAuthenticationToken(token);
-        userRepository.save(retrievedUser);
+        MagicLinkToken magicLinkToken = new MagicLinkToken(tokenValue, retrievedUser.getId());
+        magicLinkTokenRepository.save(magicLinkToken);
 
         EmailService emailService = new EmailService(javaMailSender, mailContentBuilder);
-        emailService.prepareAndSend(user.getUsername(), "Login in CuLater", "/api/login/" + token);
+        emailService.prepareAndSend(user.getUsername(), "Login in CuLater", "/api/login/" + tokenValue);
 
         return new StringResponse("Email sent correctly to " + user.getUsername());
     }
@@ -69,16 +73,21 @@ public class LoginController {
      * token. If found generate a JWT and attach it to the response header. Otherwise throw a EntityNotFoundException.
      */
     @RequestMapping(value = "/{token}", method = RequestMethod.GET, produces = "application/json")
-    public User authenticateWithMagicLink(@PathVariable("token") String token, HttpServletResponse res)
+    public @ResponseBody ResponseEntity<?> authenticateWithMagicLink(@PathVariable("token") String token, HttpServletResponse res)
             throws EntityNotFoundException {
 
-        User user = userRepository.findByAuthenticationToken(token);
+        MagicLinkToken magicLinkToken = magicLinkTokenRepository.findByValue(token);
+        if (magicLinkToken == null) {
+            throw new EntityNotFoundException("This magic link is not valid!");
+        }
+
+        User user = userRepository.findOne(magicLinkToken.getUserId());
         if (user != null) {
-            user.setAuthenticationToken(null);
-            userRepository.save(user);
+            magicLinkTokenRepository.delete(magicLinkToken);
 
             TokenAuthenticationService.addAuthentication(res, user.getUsername());
-            return user;
+            Resource<User> resource = new Resource<>(user);
+            return ResponseEntity.ok(resource);
         } else {
             throw new EntityNotFoundException("Couldn't authenticate the user!");
         }
@@ -119,13 +128,6 @@ public class LoginController {
         String initial = UUID.randomUUID().toString().replaceAll("-", "");
         String end = UUID.randomUUID().toString().replaceAll("-", "");
 
-        String time = new Date().toString();
-        String encTime = "";
-        try {
-            encTime = AESenc.encrypt(time);
-        } catch (Exception error) {
-            System.out.println("Error: AES failed");
-        }
-        return initial + end + "." + encTime;
+        return initial + end;
     }
 }

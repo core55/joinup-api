@@ -99,20 +99,22 @@ public class LoginController {
      * header.
      */
     @RequestMapping(value = "/token", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    public User authenticateWithGoogleToken(@RequestBody GoogleToken googleToken, HttpServletResponse res)
+    public @ResponseBody ResponseEntity<?> authenticateWithGoogleToken(@RequestBody GoogleToken googleToken, HttpServletResponse res)
             throws GeneralSecurityException, IOException, EntityNotFoundException{
 
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(netHttpTransport, jsonFactory)
-                .setAudience(Collections.singletonList("CLIENT_ID"))
+                .setAudience(Collections.singletonList("64814529919-8a9dch2j1lhpsau1sql0htrm67h69ijn.apps.googleusercontent.com"))
                 .build();
 
-        GoogleIdToken idToken = verifier.verify(googleToken.getIdTokenString());
+        GoogleIdToken idToken = verifier.verify(googleToken.getIdToken());
         if (idToken != null) {
             Payload payload = idToken.getPayload();
             String username = payload.getEmail();
 
             TokenAuthenticationService.addAuthentication(res, username);
-            return userRepository.findByUsername(username);
+            User user = userRepository.findByUsername(username);
+            Resource<User> resource = new Resource<>(user);
+            return ResponseEntity.ok(resource);
         } else {
             throw new EntityNotFoundException("Couldn't authenticate the user!");
         }

@@ -2,13 +2,13 @@ package io.github.core55.authentication;
 
 public class GoogleToken {
 
-    private String idTokenString;
+    private String idToken;
 
-    public String getIdTokenString() {
-        return idTokenString;
+    public String getIdToken() {
+        return idToken;
     }
 
-    public void setIdTokenString(String idTokenString) {
-        this.idTokenString = idTokenString;
+    public void setIdToken(String idToken) {
+        this.idToken = idToken;
     }
 }

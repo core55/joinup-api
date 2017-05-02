@@ -1,10 +1,3 @@
-/**
- * User.java
- *
- * Created by C. Seger on 2017-04-21.
- * Edited by P. Gajland on 2017-04-24.
- */
-
 package io.github.core55.user;
 
 import java.util.List;
@@ -14,10 +7,16 @@ import io.github.core55.meetup.Meetup;
 import io.github.core55.core.BaseEntity;
 import javax.validation.constraints.Size;
 import io.github.core55.location.Location;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import javax.validation.constraints.NotNull;
 
 @Entity
 public class User extends BaseEntity {
+
+    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     @Size(min = 1, max = 50)
     private String nickname;
@@ -29,6 +28,12 @@ public class User extends BaseEntity {
 
     @NotNull
     private String username;
+
+    @JsonIgnore
+    private String password;
+
+    @JsonIgnore
+    private String[] roles;
 
     @ManyToMany
     @JoinTable(
@@ -98,5 +103,21 @@ public class User extends BaseEntity {
 
     public void setLocations(List<Location> locations) {
         this.locations = locations;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = PASSWORD_ENCODER.encode(password);
+    }
+
+    public String[] getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String[] roles) {
+        this.roles = roles;
     }
 }

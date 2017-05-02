@@ -1,16 +1,8 @@
-/**
- * UserEventHandler.java
- *
- * Created by P. Gajland on 2017-04-24.
- */
-
 package io.github.core55.user;
 
-import java.util.UUID;
-
-import io.github.core55.location.Location;
-import io.github.core55.location.LocationRepository;
 import org.springframework.stereotype.Component;
+import io.github.core55.location.LocationService;
+import io.github.core55.location.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
@@ -29,65 +21,40 @@ public class UserEventHandler {
         this.locationRepository = locationRepository;
     }
 
+    /**
+     * Set createdAt and updatedAt fields when a User entity is created.
+     */
     @HandleBeforeCreate
     public void setUserTimestampsOnCreate(User user) {
-
-        Location newLocation = new Location(user.getLastLongitude(), user.getLastLatitude(), user);
-        newLocation.setCreatedAt();
-        newLocation.setUpdatedAt();
-
-        if (user.getLocations().size() >= 10) {
-            Location oldestLocation = user.getLocations().get(0);
-            user.getLocations().remove(0);
-            locationRepository.delete(oldestLocation);
-        }
-
-        user.getLocations().add(newLocation);
-        locationRepository.save(newLocation);
-
         user.setCreatedAt();
         user.setUpdatedAt();
     }
 
+    /**
+     * Set updatedAt field when a User entity is updated.
+     */
     @HandleBeforeSave
     public void setUserTimestampOnUpdate(User user) {
-
-        Location newLocation = new Location(user.getLastLongitude(), user.getLastLatitude(), user);
-        newLocation.setCreatedAt();
-        newLocation.setUpdatedAt();
-
-        if (user.getLocations().size() >= 10) {
-            Location oldestLocation = user.getLocations().get(0);
-            user.getLocations().remove(0);
-            locationRepository.delete(oldestLocation);
-        }
-
-        user.getLocations().add(newLocation);
-        locationRepository.save(newLocation);
-
         user.setUpdatedAt();
     }
 
+    /**
+     * Set hash field when a User entity is created.
+     */
     @HandleBeforeCreate
     public void setUserHash(User user) {
-        user.setUsername(generateHash());
+        UserService userService = new UserService(userRepository);
+        user.setUsername(userService.generateHash());
     }
 
-    private String generateHash() {
-        int count = 0;
-        boolean flag = false;
-        String hash;
-
-        while (!flag && count < 10) {
-            hash = UUID.randomUUID().toString().replaceAll("-", "");
-            User user = userRepository.findByUsername(hash);
-            if (user == null) {
-                flag = true;
-                return hash;
-            }
-            count++;
+    /**
+     * Add latest user position as a Location entity if new coordinates are provided.
+     */
+    @HandleBeforeSave
+    public void syncLocationListOnUpdate(User user) {
+        if (user.getLastLatitude() != null && user.getLastLongitude() != null) {
+            LocationService locationService = new LocationService(locationRepository);
+            locationService.updateUserLocationList(user);
         }
-
-        return null;
     }
 }

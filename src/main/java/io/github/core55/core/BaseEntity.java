@@ -1,9 +1,3 @@
-/**
- * BaseEntity.java
- *
- * Created by S. Stefani on 2017-04-22.
- */
-
 package io.github.core55.core;
 
 import java.util.Date;

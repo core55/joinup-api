@@ -1,12 +1,5 @@
-/**
- * MeetupEventHandler.java
- *
- * Created by S. Stefani on 2017-04-22.
- */
-
 package io.github.core55.meetup;
 
-import java.util.UUID;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
@@ -17,44 +10,36 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 @RepositoryEventHandler(Meetup.class)
 public class MeetupEventHandler {
 
-    private final MeetupRepository meetups;
+    private final MeetupRepository meetupRepository;
 
     @Autowired
-    public MeetupEventHandler(MeetupRepository meetups) {
-        this.meetups = meetups;
+    public MeetupEventHandler(MeetupRepository meetupRepository) {
+        this.meetupRepository = meetupRepository;
     }
 
+    /**
+     * Set createdAt and updatedAt fields when a Meetup entity is created.
+     */
     @HandleBeforeCreate
     public void setMeetupTimestampsOnCreate(Meetup meetup) {
         meetup.setCreatedAt();
         meetup.setUpdatedAt();
     }
 
+    /**
+     * Set updatedAt field when a Meetup entity is updated.
+     */
     @HandleBeforeSave
     public void setMeetupTimestampOnUpdate(Meetup meetup) {
         meetup.setUpdatedAt();
     }
 
+    /**
+     * Set hash field when a Meetup entity is created.
+     */
     @HandleBeforeCreate
     public void setMeetupHash(Meetup meetup) {
-        meetup.setHash(generateHash());
-    }
-
-    private String generateHash() {
-        int count = 0;
-        boolean flag = false;
-        String hash;
-
-        while (!flag && count < 10) {
-            hash = UUID.randomUUID().toString().replaceAll("-", "");
-            Meetup meetup = meetups.findByHash(hash);
-            if (meetup == null) {
-                flag = true;
-                return hash;
-            }
-            count++;
-        }
-
-        return null;
+        MeetupService meetupService = new MeetupService(meetupRepository);
+        meetup.setHash(meetupService.generateHash());
     }
 }

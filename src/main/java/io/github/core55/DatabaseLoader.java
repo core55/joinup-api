@@ -1,21 +1,14 @@
-/**
- * DatabaseLoader.java
- *
- * Created by S. Stefani on 2017-04-22.
- * Edited by P. Gajland on 2017-04-24.
- */
+package io.github.core55;
 
-package io.github.core55.core;
-
-import io.github.core55.location.LocationRepository;
-import io.github.core55.meetup.MeetupEventHandler;
 import io.github.core55.user.User;
 import io.github.core55.meetup.Meetup;
-import io.github.core55.user.UserEventHandler;
 import io.github.core55.user.UserRepository;
+import io.github.core55.user.UserEventHandler;
 import io.github.core55.meetup.MeetupRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.boot.ApplicationRunner;
+import io.github.core55.meetup.MeetupEventHandler;
+import io.github.core55.location.LocationRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -37,6 +30,9 @@ public class DatabaseLoader implements ApplicationRunner {
         this.userEventHandler = new UserEventHandler(users, locationRepository);
     }
 
+    /**
+     * Populate the database with some data for testing purpose.
+     */
     @Override
     public void run(ApplicationArguments args) throws Exception {
         Meetup meetup = new Meetup(18.071716, 59.326830, 13);
@@ -44,15 +40,19 @@ public class DatabaseLoader implements ApplicationRunner {
 
         User Phillip = new User(18.072311, 59.316486);
         Phillip.setNickname("Phillip");
-        userEventHandler.setUserHash(Phillip);
+        Phillip.setUsername("phillip@gmail.com");
+        Phillip.setPassword("philtheboss");
+        Phillip.setRoles(new String[]{"OWNER"});
         meetup.getUsers().add(Phillip);
         Phillip.getMeetups().add(meetup);
 
-        User Dean = new User(18.098452, 59.337490);
-        Dean.setNickname("Dean");
-        userEventHandler.setUserHash(Dean);
-        meetup.getUsers().add(Dean);
-        Dean.getMeetups().add(meetup);
+        User Simone = new User(18.098452, 59.337490);
+        Simone.setNickname("Simone");
+        Simone.setUsername("s.stefani95@gmail.com");
+        Simone.setPassword("secret");
+        Simone.setRoles(new String[]{"ADMIN", "OWNER"});
+        meetup.getUsers().add(Simone);
+        Simone.getMeetups().add(meetup);
 
         User Marcel = new User(18.073754, 59.347299);
         Marcel.setNickname("Marcel");
@@ -68,7 +68,7 @@ public class DatabaseLoader implements ApplicationRunner {
 
         meetupRepository.save(meetup);
         users.save(Phillip);
-        users.save(Dean);
+        users.save(Simone);
         users.save(Marcel);
         users.save(Jiho);
     }

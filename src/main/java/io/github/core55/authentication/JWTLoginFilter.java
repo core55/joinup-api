@@ -61,7 +61,8 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
                 user.getLastLatitude(),
                 user.getUsername(),
                 user.getCreatedAt(),
-                user.getUpdatedAt());
+                user.getUpdatedAt(),
+                user.getStatus());
 
         String simpleUserJson = gson.toJson(simpleUser);
         res.getWriter().write(simpleUserJson);

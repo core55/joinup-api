@@ -44,6 +44,7 @@ public class DatabaseLoader implements ApplicationRunner {
         Phillip.setNickname("Phillip");
         Phillip.setUsername("phillip@gmail.com");
         Phillip.setPassword("secret");
+        Phillip.setStatus("On my way!");
         Phillip.setRoles(new String[]{"OWNER"});
         meetup.getUsers().add(Phillip);
         Phillip.getMeetups().add(meetup);
@@ -52,6 +53,7 @@ public class DatabaseLoader implements ApplicationRunner {
         Simone.setNickname("Simone");
         Simone.setUsername("s.stefani95@gmail.com");
         Simone.setPassword("secret");
+        Simone.setStatus("Almost done!");
         Simone.setRoles(new String[]{"ADMIN", "OWNER"});
         meetup.getUsers().add(Simone);
         Simone.getMeetups().add(meetup);

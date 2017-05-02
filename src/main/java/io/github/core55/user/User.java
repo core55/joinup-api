@@ -3,9 +3,12 @@ package io.github.core55.user;
 import java.util.List;
 import javax.persistence.*;
 import java.util.ArrayList;
+
 import io.github.core55.meetup.Meetup;
 import io.github.core55.core.BaseEntity;
+
 import javax.validation.constraints.Size;
+
 import io.github.core55.location.Location;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,6 +37,9 @@ public class User extends BaseEntity {
 
     @JsonIgnore
     private String[] roles;
+
+    @Size(min = 1, max = 50)
+    private String status;
 
     @ManyToMany
     @JoinTable(
@@ -119,5 +125,13 @@ public class User extends BaseEntity {
 
     public void setRoles(String[] roles) {
         this.roles = roles;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

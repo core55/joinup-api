@@ -9,8 +9,9 @@ public class SimpleUser {
     private String username;
     private String createdAt;
     private String updatedAt;
+    private String status;
 
-    public SimpleUser(Long id, String nickname, Double lastLongitude, Double lastLatitude, String username, String createdAt, String updatedAt) {
+    public SimpleUser(Long id, String nickname, Double lastLongitude, Double lastLatitude, String username, String createdAt, String updatedAt, String status) {
         this.id = id;
         this.nickname = nickname;
         this.lastLongitude = lastLongitude;
@@ -18,6 +19,6 @@ public class SimpleUser {
         this.username = username;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-
+        this.status = status;
     }
 }

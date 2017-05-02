@@ -36,12 +36,14 @@ public class DatabaseLoader implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         Meetup meetup = new Meetup(18.071716, 59.326830, 13);
+        meetup.setPinLongitude(18.043155);
+        meetup.setPinLatitude(59.328986);
         meetupEventHandler.setMeetupHash(meetup);
 
         User Phillip = new User(18.072311, 59.316486);
         Phillip.setNickname("Phillip");
         Phillip.setUsername("phillip@gmail.com");
-        Phillip.setPassword("philtheboss");
+        Phillip.setPassword("secret");
         Phillip.setRoles(new String[]{"OWNER"});
         meetup.getUsers().add(Phillip);
         Phillip.getMeetups().add(meetup);

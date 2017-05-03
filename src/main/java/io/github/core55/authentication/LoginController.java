@@ -109,7 +109,7 @@ public class LoginController {
             throws GeneralSecurityException, IOException, EntityNotFoundException {
 
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(netHttpTransport, jsonFactory)
-                .setAudience(Collections.singletonList("64814529919-8a9dch2j1lhpsau1sql0htrm67h69ijn.apps.googleusercontent.com"))
+                .setAudience(Collections.singletonList("517650150673-5u6la6tavh161igifde0va2nhqrunsp0.apps.googleusercontent.com"))
                 .build();
 
         GoogleIdToken idToken = verifier.verify(googleToken.getIdToken());
@@ -131,7 +131,7 @@ public class LoginController {
     }
 
     /**
-     * Generate an authentication token which is composed by 64 random characters and the encrypted creation timestamp.
+     * Generate an authentication token which is composed by 64 random characters.
      *
      * @return the newly generated token
      */

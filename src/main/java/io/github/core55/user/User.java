@@ -41,6 +41,8 @@ public class User extends BaseEntity {
     @Size(min = 1, max = 50)
     private String status;
 
+    private String gravatarURI;
+
     @ManyToMany
     @JoinTable(
             name = "meetup_user",
@@ -133,5 +135,13 @@ public class User extends BaseEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getGravatarURI() {
+        return gravatarURI;
+    }
+
+    public void setGravatarURI(String gravatarURI) {
+        this.gravatarURI = gravatarURI;
     }
 }

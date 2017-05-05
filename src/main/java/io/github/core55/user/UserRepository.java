@@ -8,9 +8,4 @@ public interface UserRepository extends CrudRepository<User, Long> {
      * Find a User entity by its username.
      */
     User findByUsername(@Param("username") String username);
-
-    /**
-     * Find a User entity by its token (used for email confirmation).
-     */
-    User findByToken(@Param("token") String token);
 }

@@ -39,9 +39,6 @@ public class User extends BaseEntity {
 
     private String gravatarURI;
 
-    @JsonIgnore
-    private String token;
-
     @ManyToMany
     @JoinTable(
             name = "meetup_user",
@@ -64,9 +61,8 @@ public class User extends BaseEntity {
         setUpdatedAt();
     }
 
-    public User(String username, String password, String gravatarURI) {
+    public User(String username, String gravatarURI) {
         this.username = username;
-        this.setPassword(password);
         this.gravatarURI = gravatarURI;
         setCreatedAt();
         setUpdatedAt();
@@ -128,6 +124,10 @@ public class User extends BaseEntity {
         this.password = PASSWORD_ENCODER.encode(password);
     }
 
+    public void setPlainPassword(String password) {
+        this.password = password;
+    }
+
     public String[] getRoles() {
         return roles;
     }
@@ -150,13 +150,5 @@ public class User extends BaseEntity {
 
     public void setGravatarURI(String gravatarURI) {
         this.gravatarURI = gravatarURI;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 }

@@ -36,8 +36,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/login").permitAll()
-                .antMatchers("/api/login/**").permitAll()
-                .antMatchers("/api/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/meetups").access("hasRole('ROLE_ADMIN')")
+                .antMatchers(HttpMethod.POST, "/api/meetups").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/meetups/<hash>").permitAll()
+                .antMatchers(HttpMethod.PUT, "/api/meetups/<hash>").access("hasRole('ROLE_ASSOCIATEDUSERS')")
+                .antMatchers(HttpMethod.PATCH, "/api/meetups/<hash>").access("hasRole('ROLE_ASSOCIATEDUSERS')")
+                .antMatchers(HttpMethod.DELETE, "/api/meetups/<hash>").access("hasRole('ROLE_CREATOR')")
+                .antMatchers(HttpMethod.POST, "api/meetups/<hash>/users/save").permitAll()
+                .antMatchers(HttpMethod.GET, "api/meetups/<hash>/users").access("hasRole('ROLE_ASSOCIATEDUSERS')")
+                .antMatchers(HttpMethod.GET, "api/users").access("hasRole('ROLE_ADMIN')")
+                .antMatchers(HttpMethod.POST, "api/users").access("hasRole('ROLE_ADMIN')")
+                .antMatchers(HttpMethod.GET, "api/users/<id>").access("hasRole('ROLE_OWNUSER')")
+                .antMatchers(HttpMethod.PUT, "api/users/<id>").access("hasRole('ROLE_OWNUSER')")
+                .antMatchers(HttpMethod.PATCH, "api/users/<id>").access("hasRole('ROLE_OWNUSER')")
+                .antMatchers(HttpMethod.DELETE, "api/users/<id>").access("hasRole('ROLE_OWNUSER')")
+                .antMatchers(HttpMethod.GET, "api/users/<id>/locations").access("hasRole('ROLE_OWNUSER')")
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager(), userRepository),
@@ -55,3 +68,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(User.PASSWORD_ENCODER);
     }
 }
+
+//@Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.csrf().disable().authorizeRequests()
+//                .antMatchers(HttpMethod.POST, "/api/login").permitAll()
+//                .antMatchers("/api/login/**").permitAll()
+//                .antMatchers("/api/**").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager(), userRepository),
+//                        UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(new JWTAuthenticationFilter(),
+//                        UsernamePasswordAuthenticationFilter.class);
+//    }

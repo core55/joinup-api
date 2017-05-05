@@ -3,6 +3,9 @@ package io.github.core55.core;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.concurrent.TimeUnit;
+
+import io.github.core55.tokens.AuthToken;
+import io.github.core55.tokens.AuthTokenRepository;
 import io.github.core55.tokens.MagicLinkToken;
 import org.springframework.stereotype.Component;
 import io.github.core55.tokens.MagicLinkTokenRepository;
@@ -15,6 +18,9 @@ public class ScheduledTask {
 
     @Autowired
     public MagicLinkTokenRepository magicLinkTokenRepository;
+
+    @Autowired
+    public AuthTokenRepository authTokenRepository;
 
     /**
      * This scheduled task (cron job) is expected to run every hour and it checks the creation time of every
@@ -33,6 +39,17 @@ public class ScheduledTask {
 
             if (differenceInHours > 24) {
                 magicLinkTokenRepository.delete(magicLinkToken);
+            }
+        }
+
+        for (AuthToken authToken : authTokenRepository.findAll()) {
+            Date authTokenTime = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").parse(authToken.getCreatedAt());
+
+            long difference = currentTime.getTime() - authTokenTime.getTime();
+            long differenceInHours = TimeUnit.MILLISECONDS.toHours(difference);
+
+            if (differenceInHours > 24) {
+                authTokenRepository.delete(authToken);
             }
         }
     }

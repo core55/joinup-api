@@ -56,23 +56,23 @@ Clone with SSH: `git clone git@gits-15.sys.kth.se:core55/dry-cherry.git`
 
 ## Summary table of HTTP Methods for RESTful Services
 
-HTTP Verb|CRUD          |Address                        |Function
-:--------|--------------|:------------------------------|:---------------------------------------------------
-GET      |Read          |`api/meetups`                  |return all `meetup` objects
-POST     |Create        |`api/meetups`                  |add `meetup` object to DB
-GET      |Read          |`api/meetups/<hash>`           |return specific `meetup` object
-PUT      |Update/Replace|`api/meetups/<hash>`           |substitute a `meetup` with a new `meetup` object
-PATCH    |Update/Modify |`api/meetups/<hash>`           |modify selected values of a `meetup` object
-DELETE   |Delete        |`api/meetups/<hash>`           |delete specific `meetup` object
-POST     |Create        |`api/meetups/<hash>/users/save`|save `user` object and attach to specified `meetup`
-GET      |Read          |`api/meetups/<hash>/users`     |return all `users` connected to a `meetup`
-GET      |Read          |`api/users`                    |return all `user` objects
-POST     |Create        |`api/users`                    |add `user` object to DB
-GET      |Read          |`api/users/<id>`               |return specific `user` object
-PUT      |Update/Replace|`api/users/<id>`               |substitute a `user` with a new `user` object
-PATCH    |Update/Modify |`api/users/<id>`               |modify selected values of a `user` object
-DELETE   |Delete        |`api/users/<id>`               |delete specific `user` object
-GET      |Read          |`api/users/<id>/locations`     |return the ten last locations of a `user`
+HTTP Verb|CRUD          |Address                        |Function                                           |Permission
+:--------|--------------|:------------------------------|:-------------------------------------------------:|:---------------:
+GET      |Read          |`api/meetups`                  |return all `meetup` objects                        |ADMIN
+POST     |Create        |`api/meetups`                  |add `meetup` object to DB                          |ALL
+GET      |Read          |`api/meetups/<hash>`           |return specific `meetup` object                    |ALL
+PUT      |Update/Replace|`api/meetups/<hash>`           |substitute a `meetup` with a new `meetup` object   |ASSOCIATED USERS
+PATCH    |Update/Modify |`api/meetups/<hash>`           |modify selected values of a `meetup` object        |ASSOCIATED USERS
+DELETE   |Delete        |`api/meetups/<hash>`           |delete specific `meetup` object                    |CREATOR
+POST     |Create        |`api/meetups/<hash>/users/save`|save `user` object and attach to specified `meetup`|ALL
+GET      |Read          |`api/meetups/<hash>/users`     |return all `users` connected to a `meetup`         |ASSOCIATED USERS
+GET      |Read          |`api/users`                    |return all `user` objects                          |ADMIN
+POST     |Create        |`api/users`                    |add `user` object to DB                            |ADMIN
+GET      |Read          |`api/users/<id>`               |return specific `user` object                      |OWN USER
+PUT      |Update/Replace|`api/users/<id>`               |substitute a `user` with a new `user` object       |OWN USER
+PATCH    |Update/Modify |`api/users/<id>`               |modify selected values of a `user` object          |OWN USER
+DELETE   |Delete        |`api/users/<id>`               |delete specific `user` object                      |OWN USER
+GET      |Read          |`api/users/<id>/locations`     |return the ten last locations of a `user`          |OWN USER
 
 
 ## API endpoints

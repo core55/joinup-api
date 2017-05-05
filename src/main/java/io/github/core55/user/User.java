@@ -3,12 +3,9 @@ package io.github.core55.user;
 import java.util.List;
 import javax.persistence.*;
 import java.util.ArrayList;
-
 import io.github.core55.meetup.Meetup;
 import io.github.core55.core.BaseEntity;
-
 import javax.validation.constraints.Size;
-
 import io.github.core55.location.Location;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,9 +21,8 @@ public class User extends BaseEntity {
     @Size(min = 1, max = 50)
     private String nickname;
 
-    @NotNull
     private Double lastLongitude;
-    @NotNull
+
     private Double lastLatitude;
 
     @NotNull
@@ -61,6 +57,13 @@ public class User extends BaseEntity {
         this();
         this.lastLongitude = lastLongitude;
         this.lastLatitude = lastLatitude;
+        setCreatedAt();
+        setUpdatedAt();
+    }
+
+    public User(String username, String gravatarURI) {
+        this.username = username;
+        this.gravatarURI = gravatarURI;
         setCreatedAt();
         setUpdatedAt();
     }
@@ -119,6 +122,10 @@ public class User extends BaseEntity {
 
     public void setPassword(String password) {
         this.password = PASSWORD_ENCODER.encode(password);
+    }
+
+    public void setPlainPassword(String password) {
+        this.password = password;
     }
 
     public String[] getRoles() {

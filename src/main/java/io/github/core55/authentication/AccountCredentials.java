@@ -4,6 +4,7 @@ public class AccountCredentials {
 
     private String username;
     private String password;
+    private String oldUsername;
 
     public String getUsername() {
         return username;
@@ -19,5 +20,13 @@ public class AccountCredentials {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getOldUsername() {
+        return oldUsername;
+    }
+
+    public void setOldUsername(String oldUsername) {
+        this.oldUsername = oldUsername;
     }
 }

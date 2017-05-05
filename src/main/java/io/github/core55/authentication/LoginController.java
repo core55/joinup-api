@@ -116,12 +116,12 @@ public class LoginController {
         if (idToken != null) {
             Payload payload = idToken.getPayload();
             String username = payload.getEmail();
-            String pictureUrl = (String) payload.get("picture");
-            System.out.println(pictureUrl);
+//            String pictureUrl = (String) payload.get("picture");
+//            System.out.println(pictureUrl);
             User user = userRepository.findByUsername(username);
-            if (user.getGooglePictureURI() == null) {
-                user.setGooglePictureURI(pictureUrl);
-            }
+//            if (user.getGooglePictureURI() == null) {
+//                user.setGooglePictureURI(pictureUrl);
+//            }
 
             Authentication auth = new UsernamePasswordAuthenticationToken(user.getUsername(), null, Collections.emptyList());
             SecurityContextHolder.getContext().setAuthentication(auth);

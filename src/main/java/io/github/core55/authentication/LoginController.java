@@ -66,7 +66,7 @@ public class LoginController {
         magicLinkTokenRepository.save(magicLinkToken);
 
         EmailService emailService = new EmailService(javaMailSender, mailContentBuilder);
-        emailService.prepareAndSend(user.getUsername(), "Login in CuLater", "/api/login/" + tokenValue);
+        emailService.prepareAndSend(user.getUsername(), "Login to Joinup", "/api/login/" + tokenValue);
 
         return new StringResponse("Email sent correctly to " + user.getUsername());
     }

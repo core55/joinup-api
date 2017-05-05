@@ -3,12 +3,9 @@ package io.github.core55.user;
 import java.util.List;
 import javax.persistence.*;
 import java.util.ArrayList;
-
 import io.github.core55.meetup.Meetup;
 import io.github.core55.core.BaseEntity;
-
 import javax.validation.constraints.Size;
-
 import io.github.core55.location.Location;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,9 +21,8 @@ public class User extends BaseEntity {
     @Size(min = 1, max = 50)
     private String nickname;
 
-    @NotNull
     private Double lastLongitude;
-    @NotNull
+
     private Double lastLatitude;
 
     @NotNull
@@ -42,6 +38,9 @@ public class User extends BaseEntity {
     private String status;
 
     private String gravatarURI;
+
+    @JsonIgnore
+    private String token;
 
     @ManyToMany
     @JoinTable(
@@ -61,6 +60,14 @@ public class User extends BaseEntity {
         this();
         this.lastLongitude = lastLongitude;
         this.lastLatitude = lastLatitude;
+        setCreatedAt();
+        setUpdatedAt();
+    }
+
+    public User(String username, String password, String gravatarURI) {
+        this.username = username;
+        this.setPassword(password);
+        this.gravatarURI = gravatarURI;
         setCreatedAt();
         setUpdatedAt();
     }
@@ -143,5 +150,13 @@ public class User extends BaseEntity {
 
     public void setGravatarURI(String gravatarURI) {
         this.gravatarURI = gravatarURI;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

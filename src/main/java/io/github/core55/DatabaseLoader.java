@@ -47,7 +47,6 @@ public class DatabaseLoader implements ApplicationRunner {
         Phillip.setGravatarURI("https://www.gravatar.com/avatar/" + MD5Util.md5Hex("phillip.example@gmail.com"));
         Phillip.setPassword("secret");
         Phillip.setStatus("On my way!");
-        Phillip.setRoles(new String[]{"OWNER"});
         meetup.getUsers().add(Phillip);
         Phillip.getMeetups().add(meetup);
 
@@ -57,7 +56,6 @@ public class DatabaseLoader implements ApplicationRunner {
         Simone.setGravatarURI("https://www.gravatar.com/avatar/" + MD5Util.md5Hex("s.stefani95@gmail.com"));
         Simone.setPassword("secret");
         Simone.setStatus("Almost done!");
-        Simone.setRoles(new String[]{"ADMIN", "OWNER"});
         meetup.getUsers().add(Simone);
         Simone.getMeetups().add(meetup);
 

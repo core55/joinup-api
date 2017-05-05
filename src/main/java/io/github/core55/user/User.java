@@ -155,4 +155,12 @@ public class User extends BaseEntity {
     public void setGravatarURI(String gravatarURI) {
         this.gravatarURI = gravatarURI;
     }
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
+    }
 }

@@ -51,6 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PATCH, "api/users/**").access("hasRole('ROLE_OWNUSER')")
                 .antMatchers(HttpMethod.DELETE, "api/users/**").access("hasRole('ROLE_OWNUSER')")
                 .antMatchers(HttpMethod.GET, "api/users/**/locations").access("hasRole('ROLE_OWNUSER')")
+                .antMatchers("/api/**").permitAll() // Temporary
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager(), userRepository),

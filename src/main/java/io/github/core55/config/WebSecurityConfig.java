@@ -71,17 +71,3 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(User.PASSWORD_ENCODER);
     }
 }
-
-//@Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.csrf().disable().authorizeRequests()
-//                .antMatchers(HttpMethod.POST, "/api/login").permitAll()
-//                .antMatchers("/api/login/**").permitAll()
-//                .antMatchers("/api/**").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager(), userRepository),
-//                        UsernamePasswordAuthenticationFilter.class)
-//                .addFilterBefore(new JWTAuthenticationFilter(),
-//                        UsernamePasswordAuthenticationFilter.class);
-//    }

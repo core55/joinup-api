@@ -1,5 +1,7 @@
 package io.github.core55.core;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
@@ -13,7 +15,10 @@ public abstract class BaseEntity {
     @Version
     private Long version;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private String createdAt;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private String updatedAt;
 
     protected BaseEntity() {
@@ -29,7 +34,7 @@ public abstract class BaseEntity {
     }
 
     public void setCreatedAt() {
-        this.createdAt = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+        this.createdAt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date());
     }
 
     public String getUpdatedAt() {
@@ -37,6 +42,6 @@ public abstract class BaseEntity {
     }
 
     public void setUpdatedAt() {
-        this.updatedAt = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+        this.updatedAt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date());
     }
 }

@@ -3,12 +3,12 @@ package io.github.core55.authentication;
 import java.util.UUID;
 import java.util.Collections;
 
-import io.github.core55.core.ErrorResponse;
+import io.github.core55.response.ErrorUnprocessableEntity;
 import io.github.core55.user.User;
 import io.github.core55.tokens.MD5Util;
 import io.github.core55.tokens.AuthToken;
 import io.github.core55.email.EmailService;
-import io.github.core55.core.StringResponse;
+import io.github.core55.response.StringResponse;
 import io.github.core55.user.UserRepository;
 import org.springframework.hateoas.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -54,8 +54,7 @@ public class RegisterController {
         User retrievedUserByUsername = userRepository.findByUsername(credentials.getUsername());
 
         if (retrievedUserByUsername != null) {
-            ErrorResponse errorResponse = new ErrorResponse(422, "Unprocessable Entity", "Can't find the user " + credentials.getUsername());
-            return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity<>(new ErrorUnprocessableEntity("Can't find the user " + credentials.getUsername()), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         User user;
@@ -86,8 +85,7 @@ public class RegisterController {
 
         AuthToken authToken = authTokenRepository.findByValue(token);
         if (authToken == null) {
-            ErrorResponse errorResponse = new ErrorResponse(422, "Unprocessable Entity", "This registration link is not valid!");
-            return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity<>(new ErrorUnprocessableEntity("This registration link is not valid!"), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         User user;

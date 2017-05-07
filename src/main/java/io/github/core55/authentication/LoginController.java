@@ -3,11 +3,13 @@ package io.github.core55.authentication;
 import java.util.UUID;
 import java.io.IOException;
 import java.util.Collections;
+
+import io.github.core55.response.ErrorUnauthorized;
+import io.github.core55.response.ErrorUnprocessableEntity;
 import io.github.core55.user.User;
-import io.github.core55.core.ErrorResponse;
 import io.github.core55.email.EmailService;
 import org.springframework.http.HttpStatus;
-import io.github.core55.core.StringResponse;
+import io.github.core55.response.StringResponse;
 import io.github.core55.user.UserRepository;
 import org.springframework.hateoas.Resource;
 import java.security.GeneralSecurityException;
@@ -60,8 +62,7 @@ public class LoginController {
         User retrievedUser = userRepository.findByUsername(user.getUsername());
 
         if (retrievedUser == null) {
-            ErrorResponse errorResponse = new ErrorResponse(422, "Unprocessable Entity", "Can't find the user " + retrievedUser.getUsername());
-            return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity<>(new ErrorUnprocessableEntity("Can't find the user " + retrievedUser.getUsername()), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         MagicLinkToken magicLinkToken = new MagicLinkToken(tokenValue, retrievedUser.getId());
@@ -84,8 +85,7 @@ public class LoginController {
 
         MagicLinkToken magicLinkToken = magicLinkTokenRepository.findByValue(token);
         if (magicLinkToken == null) {
-            ErrorResponse errorResponse = new ErrorResponse(422, "Unprocessable Entity", "This magic link is not valid!");
-            return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity<>(new ErrorUnprocessableEntity("This magic link is not valid!"), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         User user = userRepository.findOne(magicLinkToken.getUserId());
@@ -99,8 +99,7 @@ public class LoginController {
             Resource<User> resource = new Resource<>(user);
             return ResponseEntity.ok(resource);
         } else {
-            ErrorResponse errorResponse = new ErrorResponse(401, "Unauthorized", "Couldn't authenticate the user!");
-            return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(new ErrorUnauthorized("Couldn't authenticate the user!"), HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -126,8 +125,7 @@ public class LoginController {
             User user = userRepository.findByUsername(username);
 
             if (user == null) {
-                ErrorResponse errorResponse = new ErrorResponse(422, "Unprocessable Entity", "Can't find the user " + username);
-                return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+                return new ResponseEntity<>(new ErrorUnprocessableEntity("Can't find the user " + username), HttpStatus.UNPROCESSABLE_ENTITY);
             }
 
             if (user.getGooglePictureURI() == null) {
@@ -143,8 +141,7 @@ public class LoginController {
             Resource<User> resource = new Resource<>(user);
             return ResponseEntity.ok(resource);
         } else {
-            ErrorResponse errorResponse = new ErrorResponse(401, "Unauthorized", "Couldn't authenticate the user!");
-            return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(new ErrorUnauthorized("Couldn't authenticate the user!"), HttpStatus.UNAUTHORIZED);
         }
 
     }
@@ -159,8 +156,7 @@ public class LoginController {
         User user = userRepository.findByUsername(credentials.getUsername());
 
         if (user == null) {
-            ErrorResponse errorResponse = new ErrorResponse(422, "Unprocessable Entity", "Can't find the user " + credentials.getUsername());
-            return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity<>(new ErrorUnprocessableEntity("Can't find the user " + credentials.getUsername()), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         if (User.PASSWORD_ENCODER.matches(credentials.getPassword(), user.getPassword())) {
@@ -171,8 +167,7 @@ public class LoginController {
             Resource<User> resource = new Resource<>(user);
             return ResponseEntity.ok(resource);
         } else {
-            ErrorResponse errorResponse = new ErrorResponse(401, "Unauthorized", "Your username or password is incorrect");
-            return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(new ErrorUnauthorized("Your username or password is incorrect"), HttpStatus.UNAUTHORIZED);
         }
     }
 

@@ -1,24 +1,22 @@
-package io.github.core55.core;
+/*
+  Authors: S. Stefani
+ */
 
-public class ErrorResponse {
+package io.github.core55.response;
+
+/**
+ * Define the structure of an error message with timestamp in Unix time, status
+ * code, error name and custom message.
+ */
+public abstract class ErrorResponse {
+
     private long timestamp;
     private int status;
     private String error;
     private String message;
 
-    public ErrorResponse(int status, String error, String message) {
+    public ErrorResponse() {
         this.setTimestamp();
-        this.status = status;
-        this.error = error;
-        this.message = message;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp() {
-        this.timestamp = System.currentTimeMillis() / 1000L;
     }
 
     public int getStatus() {
@@ -43,5 +41,13 @@ public class ErrorResponse {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp() {
+        this.timestamp = System.currentTimeMillis() / 1000L;
     }
 }

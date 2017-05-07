@@ -137,6 +137,32 @@ public class LoginController {
     }
 
     /**
+     * Authenticate a user with basic username and password. Use BCrypt password encoder to authorize. Return JWT and
+     * authenticated user entity.
+     */
+    @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public @ResponseBody ResponseEntity<?> basicAuthentication(@RequestBody AccountCredentials creds, HttpServletResponse res)
+            throws EntityNotFoundException {
+
+        User user = userRepository.findByUsername(creds.getUsername());
+
+        if (user == null) {
+            throw new EntityNotFoundException("Can't find the user " + creds.getUsername());
+        }
+
+        if (User.PASSWORD_ENCODER.matches(creds.getPassword(), user.getPassword())) {
+            Authentication auth = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), Collections.emptyList());
+            SecurityContextHolder.getContext().setAuthentication(auth);
+
+            TokenAuthenticationService.addAuthentication(res, user.getUsername());
+            Resource<User> resource = new Resource<>(user);
+            return ResponseEntity.ok(resource);
+        } else {
+            throw new EntityNotFoundException("Couldn't authenticate the user!");
+        }
+    }
+
+    /**
      * Generate an authentication token which is composed by 64 random characters.
      *
      * @return the newly generated token

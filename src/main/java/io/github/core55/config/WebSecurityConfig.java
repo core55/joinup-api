@@ -1,10 +1,7 @@
 package io.github.core55.config;
 
 import io.github.core55.user.User;
-import io.github.core55.user.UserRepository;
-import org.springframework.http.HttpMethod;
 import io.github.core55.user.DetailsService;
-import io.github.core55.authentication.JWTLoginFilter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.github.core55.authentication.JWTAuthenticationFilter;
@@ -22,9 +19,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DetailsService userDetailsService;
-
-    @Autowired
-    private UserRepository userRepository;
 
     /**
      * When Spring Security is enabled it is important to define which routes can be accessed and which authentication
@@ -51,13 +45,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers(HttpMethod.PATCH, "api/users/**").access("hasRole('ROLE_OWNUSER')")
 //                .antMatchers(HttpMethod.DELETE, "api/users/**").access("hasRole('ROLE_OWNUSER')")
 //                .antMatchers(HttpMethod.GET, "api/users/**/locations").access("hasRole('ROLE_OWNUSER')")
-                .antMatchers(HttpMethod.POST, "/api/login").permitAll()
-                .antMatchers("/api/login/**").permitAll()
+//                .antMatchers(HttpMethod.POST, "/api/login").permitAll()
+//                .antMatchers("/api/login/**").permitAll()
                 .antMatchers("/api/**").permitAll() // Temporary
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager(), userRepository),
-                        UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JWTAuthenticationFilter(),
                         UsernamePasswordAuthenticationFilter.class);
     }

@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "APP_USER")
 public class User extends BaseEntity {
 
     public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();

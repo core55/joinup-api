@@ -1,10 +1,7 @@
 package io.github.core55.config;
 
 import io.github.core55.user.User;
-import io.github.core55.user.UserRepository;
-import org.springframework.http.HttpMethod;
 import io.github.core55.user.DetailsService;
-import io.github.core55.authentication.JWTLoginFilter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.github.core55.authentication.JWTAuthenticationFilter;
@@ -23,9 +20,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DetailsService userDetailsService;
 
-    @Autowired
-    private UserRepository userRepository;
-
     /**
      * When Spring Security is enabled it is important to define which routes can be accessed and which authentication
      * procedures needs to be applied. This API uses two highly customised authentication approaches (magic link and
@@ -35,27 +29,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/login").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/meetups").access("hasRole('ROLE_ADMIN')")
-                .antMatchers(HttpMethod.POST, "/api/meetups").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/meetups/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "/api/meetups/**").access("hasRole('ROLE_ASSOCIATEDUSERS')")
-                .antMatchers(HttpMethod.PATCH, "/api/meetups/**").access("hasRole('ROLE_ASSOCIATEDUSERS')")
-                .antMatchers(HttpMethod.DELETE, "/api/meetups/**").access("hasRole('ROLE_CREATOR')")
-                .antMatchers(HttpMethod.POST, "api/meetups/**/users/save").permitAll()
-                .antMatchers(HttpMethod.GET, "api/meetups/**/users").access("hasRole('ROLE_ASSOCIATEDUSERS')")
-                .antMatchers(HttpMethod.GET, "api/users").access("hasRole('ROLE_ADMIN')")
-                .antMatchers(HttpMethod.POST, "api/users").access("hasRole('ROLE_ADMIN')")
-                .antMatchers(HttpMethod.GET, "api/users/**").access("hasRole('ROLE_OWNUSER')")
-                .antMatchers(HttpMethod.PUT, "api/users/**").access("hasRole('ROLE_OWNUSER')")
-                .antMatchers(HttpMethod.PATCH, "api/users/**").access("hasRole('ROLE_OWNUSER')")
-                .antMatchers(HttpMethod.DELETE, "api/users/**").access("hasRole('ROLE_OWNUSER')")
-                .antMatchers(HttpMethod.GET, "api/users/**/locations").access("hasRole('ROLE_OWNUSER')")
+//                .antMatchers(HttpMethod.POST, "/api/login").permitAll()
+//                .antMatchers(HttpMethod.GET, "/api/meetups").access("hasRole('ROLE_ADMIN')")
+//                .antMatchers(HttpMethod.POST, "/api/meetups").permitAll()
+//                .antMatchers(HttpMethod.GET, "/api/meetups/**").permitAll()
+//                .antMatchers(HttpMethod.PUT, "/api/meetups/**").access("hasRole('ROLE_ASSOCIATEDUSERS')")
+//                .antMatchers(HttpMethod.PATCH, "/api/meetups/**").access("hasRole('ROLE_ASSOCIATEDUSERS')")
+//                .antMatchers(HttpMethod.DELETE, "/api/meetups/**").access("hasRole('ROLE_CREATOR')")
+//                .antMatchers(HttpMethod.POST, "api/meetups/**/users/save").permitAll()
+//                .antMatchers(HttpMethod.GET, "api/meetups/**/users").access("hasRole('ROLE_ASSOCIATEDUSERS')")
+//                .antMatchers(HttpMethod.GET, "api/users").access("hasRole('ROLE_ADMIN')")
+//                .antMatchers(HttpMethod.POST, "api/users").access("hasRole('ROLE_ADMIN')")
+//                .antMatchers(HttpMethod.GET, "api/users/**").access("hasRole('ROLE_OWNUSER')")
+//                .antMatchers(HttpMethod.PUT, "api/users/**").access("hasRole('ROLE_OWNUSER')")
+//                .antMatchers(HttpMethod.PATCH, "api/users/**").access("hasRole('ROLE_OWNUSER')")
+//                .antMatchers(HttpMethod.DELETE, "api/users/**").access("hasRole('ROLE_OWNUSER')")
+//                .antMatchers(HttpMethod.GET, "api/users/**/locations").access("hasRole('ROLE_OWNUSER')")
+//                .antMatchers(HttpMethod.POST, "/api/login").permitAll()
+//                .antMatchers("/api/login/**").permitAll()
                 .antMatchers("/api/**").permitAll() // Temporary
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager(), userRepository),
-                        UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JWTAuthenticationFilter(),
                         UsernamePasswordAuthenticationFilter.class);
     }
@@ -69,17 +63,3 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(User.PASSWORD_ENCODER);
     }
 }
-
-//@Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.csrf().disable().authorizeRequests()
-//                .antMatchers(HttpMethod.POST, "/api/login").permitAll()
-//                .antMatchers("/api/login/**").permitAll()
-//                .antMatchers("/api/**").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager(), userRepository),
-//                        UsernamePasswordAuthenticationFilter.class)
-//                .addFilterBefore(new JWTAuthenticationFilter(),
-//                        UsernamePasswordAuthenticationFilter.class);
-//    }

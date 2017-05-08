@@ -3,9 +3,13 @@ package io.github.core55.authentication;
 import java.util.UUID;
 import java.io.IOException;
 import java.util.Collections;
+
+import io.github.core55.response.ErrorUnauthorized;
+import io.github.core55.response.ErrorUnprocessableEntity;
 import io.github.core55.user.User;
 import io.github.core55.email.EmailService;
-import io.github.core55.core.StringResponse;
+import org.springframework.http.HttpStatus;
+import io.github.core55.response.StringResponse;
 import io.github.core55.user.UserRepository;
 import org.springframework.hateoas.Resource;
 import java.security.GeneralSecurityException;
@@ -14,7 +18,6 @@ import com.google.api.client.json.JsonFactory;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import io.github.core55.email.MailContentBuilder;
-import javax.persistence.EntityNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 import io.github.core55.tokens.MagicLinkTokenRepository;
@@ -53,22 +56,24 @@ public class LoginController {
      * authentication link containing the same token.
      */
     @RequestMapping(value = "/send", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    public StringResponse sendLoginEmail(@RequestBody User user) throws EntityNotFoundException {
+    public @ResponseBody ResponseEntity<?> sendLoginEmail(@RequestBody User user) {
 
         String tokenValue = generateToken();
         User retrievedUser = userRepository.findByUsername(user.getUsername());
 
         if (retrievedUser == null) {
-            throw new EntityNotFoundException("Couldn't find the user " + user.getUsername());
+            return new ResponseEntity<>(new ErrorUnprocessableEntity("Can't find the user " + retrievedUser.getUsername()), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         MagicLinkToken magicLinkToken = new MagicLinkToken(tokenValue, retrievedUser.getId());
         magicLinkTokenRepository.save(magicLinkToken);
 
+        // TODO: Fix email system!
         EmailService emailService = new EmailService(javaMailSender, mailContentBuilder);
         emailService.prepareAndSend(user.getUsername(), "Login to Joinup", "/api/login/" + tokenValue);
 
-        return new StringResponse("Email sent correctly to " + user.getUsername());
+        Resource<StringResponse> resource = new Resource<>(new StringResponse("Email sent correctly to " + user.getUsername()));
+        return ResponseEntity.ok(resource);
     }
 
     /**
@@ -76,12 +81,11 @@ public class LoginController {
      * token. If found generate a JWT and attach it to the response header. Otherwise throw a EntityNotFoundException.
      */
     @RequestMapping(value = "/{token}", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody ResponseEntity<?> authenticateWithMagicLink(@PathVariable("token") String token, HttpServletResponse res)
-            throws EntityNotFoundException {
+    public @ResponseBody ResponseEntity<?> authenticateWithMagicLink(@PathVariable("token") String token, HttpServletResponse res) {
 
         MagicLinkToken magicLinkToken = magicLinkTokenRepository.findByValue(token);
         if (magicLinkToken == null) {
-            throw new EntityNotFoundException("This magic link is not valid!");
+            return new ResponseEntity<>(new ErrorUnprocessableEntity("This magic link is not valid!"), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         User user = userRepository.findOne(magicLinkToken.getUserId());
@@ -95,7 +99,7 @@ public class LoginController {
             Resource<User> resource = new Resource<>(user);
             return ResponseEntity.ok(resource);
         } else {
-            throw new EntityNotFoundException("Couldn't authenticate the user!");
+            return new ResponseEntity<>(new ErrorUnauthorized("Couldn't authenticate the user!"), HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -106,7 +110,7 @@ public class LoginController {
      */
     @RequestMapping(value = "/token", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public @ResponseBody ResponseEntity<?> authenticateWithGoogleToken(@RequestBody GoogleToken googleToken, HttpServletResponse res)
-            throws GeneralSecurityException, IOException, EntityNotFoundException {
+            throws GeneralSecurityException, IOException {
 
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(netHttpTransport, jsonFactory)
                 .setAudience(Collections.singletonList("517650150673-5u6la6tavh161igifde0va2nhqrunsp0.apps.googleusercontent.com"))
@@ -116,7 +120,19 @@ public class LoginController {
         if (idToken != null) {
             Payload payload = idToken.getPayload();
             String username = payload.getEmail();
+            String pictureUrl = (String) payload.get("picture");
+
             User user = userRepository.findByUsername(username);
+
+            if (user == null) {
+                return new ResponseEntity<>(new ErrorUnprocessableEntity("Can't find the user " + username), HttpStatus.UNPROCESSABLE_ENTITY);
+            }
+
+            if (user.getGooglePictureURI() == null) {
+                user.setGooglePictureURI(pictureUrl);
+            }
+
+            userRepository.save(user);
 
             Authentication auth = new UsernamePasswordAuthenticationToken(user.getUsername(), null, Collections.emptyList());
             SecurityContextHolder.getContext().setAuthentication(auth);
@@ -125,9 +141,34 @@ public class LoginController {
             Resource<User> resource = new Resource<>(user);
             return ResponseEntity.ok(resource);
         } else {
-            throw new EntityNotFoundException("Couldn't authenticate the user!");
+            return new ResponseEntity<>(new ErrorUnauthorized("Couldn't authenticate the user!"), HttpStatus.UNAUTHORIZED);
         }
 
+    }
+
+    /**
+     * Authenticate a user with basic username and password. Use BCrypt password encoder to authorize. Return JWT and
+     * authenticated user entity.
+     */
+    @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public @ResponseBody ResponseEntity<?> basicAuthentication(@RequestBody AccountCredentials credentials, HttpServletResponse res) {
+
+        User user = userRepository.findByUsername(credentials.getUsername());
+
+        if (user == null) {
+            return new ResponseEntity<>(new ErrorUnprocessableEntity("Can't find the user " + credentials.getUsername()), HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+        if (User.PASSWORD_ENCODER.matches(credentials.getPassword(), user.getPassword())) {
+            Authentication auth = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), Collections.emptyList());
+            SecurityContextHolder.getContext().setAuthentication(auth);
+
+            TokenAuthenticationService.addAuthentication(res, user.getUsername());
+            Resource<User> resource = new Resource<>(user);
+            return ResponseEntity.ok(resource);
+        } else {
+            return new ResponseEntity<>(new ErrorUnauthorized("Your username or password is incorrect"), HttpStatus.UNAUTHORIZED);
+        }
     }
 
     /**

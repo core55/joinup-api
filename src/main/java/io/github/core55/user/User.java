@@ -1,25 +1,21 @@
 package io.github.core55.user;
 
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.*;
 import java.util.ArrayList;
-
-import java.util.Set;
-
-import io.github.core55.core.Role;
+import java.util.Collection;
 import io.github.core55.meetup.Meetup;
 import io.github.core55.core.BaseEntity;
 import javax.validation.constraints.Size;
 import io.github.core55.location.Location;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "APP_USER")
 public class User extends BaseEntity {
 
     public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
@@ -42,14 +38,18 @@ public class User extends BaseEntity {
 
     private String gravatarURI;
 
-    @ManyToMany
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(
-                    name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roles;
+    private String googlePictureURI;
+
+//    @ManyToMany
+//    @JoinTable(
+//            name = "users_roles",
+//            joinColumns = @JoinColumn(
+//                    name = "user_id", referencedColumnName = "id"),
+//            inverseJoinColumns = @JoinColumn(
+//                    name = "role_id", referencedColumnName = "id"))
+//    private Collection<Role> roles;
+
+    private String[] roles;
 
     @ManyToMany
     @JoinTable(
@@ -156,11 +156,27 @@ public class User extends BaseEntity {
         this.gravatarURI = gravatarURI;
     }
 
-    public Collection<Role> getRoles() {
+    public String getGooglePictureURI() {
+        return googlePictureURI;
+    }
+
+    public void setGooglePictureURI(String googlePictureURI) {
+        this.googlePictureURI = googlePictureURI;
+    }
+
+    public String[] getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(String[] roles) {
         this.roles = roles;
     }
+
+    //    public Collection<Role> getRoles() {
+//        return roles;
+//    }
+//
+//    public void setRoles(Collection<Role> roles) {
+//        this.roles = roles;
+//    }
 }

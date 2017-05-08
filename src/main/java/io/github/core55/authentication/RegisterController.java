@@ -2,14 +2,18 @@ package io.github.core55.authentication;
 
 import java.util.UUID;
 import java.util.Collections;
+
+import io.github.core55.response.ErrorUnprocessableEntity;
 import io.github.core55.user.User;
 import io.github.core55.tokens.MD5Util;
 import io.github.core55.tokens.AuthToken;
 import io.github.core55.email.EmailService;
-import io.github.core55.core.StringResponse;
+import io.github.core55.response.StringResponse;
 import io.github.core55.user.UserRepository;
 import org.springframework.hateoas.Resource;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import io.github.core55.email.MailContentBuilder;
 import javax.persistence.EntityNotFoundException;
@@ -44,30 +48,32 @@ public class RegisterController {
      * a new user entity. It returns the registered user and automatically authenticates it.
      */
     @RequestMapping(value = "/send", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    public StringResponse sendRegisterEmail(@RequestBody AccountCredentials creds, HttpServletResponse res) throws EntityNotFoundException {
+    public @ResponseBody ResponseEntity<?> sendRegisterEmail(@RequestBody AccountCredentials credentials, HttpServletResponse res) {
 
         String tokenValue = generateToken();
-        User retrievedUserByUsername = userRepository.findByUsername(creds.getUsername());
+        User retrievedUserByUsername = userRepository.findByUsername(credentials.getUsername());
 
         if (retrievedUserByUsername != null) {
-            throw new EntityNotFoundException("The provided email is already taken!");
+            return new ResponseEntity<>(new ErrorUnprocessableEntity("Can't find the user " + credentials.getUsername()), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         User user;
-        if (creds.getOldUsername() == null) {
-            AuthToken authToken = new AuthToken(tokenValue, creds.getUsername(), creds.getPassword());
+        if (credentials.getOldUsername() == null) {
+            AuthToken authToken = new AuthToken(tokenValue, credentials.getUsername(), credentials.getPassword());
             authTokenRepository.save(authToken);
         } else {
-            AuthToken authToken = new AuthToken(tokenValue, creds.getUsername(), creds.getPassword());
-            user = userRepository.findByUsername(creds.getOldUsername());
+            AuthToken authToken = new AuthToken(tokenValue, credentials.getUsername(), credentials.getPassword());
+            user = userRepository.findByUsername(credentials.getOldUsername());
             authToken.setUserId(user.getId());
             authTokenRepository.save(authToken);
         }
 
+        // TODO: fix email templates
         EmailService emailService = new EmailService(javaMailSender, mailContentBuilder);
-        emailService.prepareAndSend(creds.getUsername(), "Register to Joinup", "/api/register/" + tokenValue);
+        emailService.prepareAndSend(credentials.getUsername(), "Register to Joinup", "/api/register/" + tokenValue);
 
-        return new StringResponse("Email sent correctly to " + creds.getUsername());
+        Resource<StringResponse> resource = new Resource<>(new StringResponse("Email sent correctly to " + credentials.getUsername()));
+        return ResponseEntity.ok(resource);
     }
 
     /**
@@ -79,7 +85,7 @@ public class RegisterController {
 
         AuthToken authToken = authTokenRepository.findByValue(token);
         if (authToken == null) {
-            throw new EntityNotFoundException("The registration link is not valid!");
+            return new ResponseEntity<>(new ErrorUnprocessableEntity("This registration link is not valid!"), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         User user;

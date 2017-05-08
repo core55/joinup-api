@@ -43,7 +43,7 @@ public class DatabaseLoader implements ApplicationRunner {
 
         User Phillip = new User(18.072311, 59.316486);
         Phillip.setNickname("Phillip");
-        Phillip.setUsername("phillip.example@gmail.com");
+        Phillip.setUsername("phillip@gmail.com");
         Phillip.setGravatarURI("https://www.gravatar.com/avatar/" + MD5Util.md5Hex("phillip.example@gmail.com"));
         Phillip.setPassword("secret");
         Phillip.setStatus("On my way!");
@@ -52,7 +52,7 @@ public class DatabaseLoader implements ApplicationRunner {
 
         User Simone = new User(18.098452, 59.337490);
         Simone.setNickname("Simone");
-        Simone.setUsername("s.stefani95@gmail.com");
+        Simone.setUsername("simone@gmail.com");
         Simone.setGravatarURI("https://www.gravatar.com/avatar/" + MD5Util.md5Hex("s.stefani95@gmail.com"));
         Simone.setPassword("secret");
         Simone.setStatus("Almost done!");

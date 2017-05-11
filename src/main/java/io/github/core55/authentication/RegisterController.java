@@ -54,7 +54,7 @@ public class RegisterController {
         User retrievedUserByUsername = userRepository.findByUsername(credentials.getUsername());
 
         if (retrievedUserByUsername != null) {
-            return new ResponseEntity<>(new ErrorUnprocessableEntity("Can't find the user " + credentials.getUsername()), HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity<>(new ErrorUnprocessableEntity("The username " + credentials.getUsername()) + " is already taken", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         User user;

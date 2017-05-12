@@ -1,22 +1,31 @@
 package io.github.core55.email;
 
 /**
- * Created by P. Gajland on 2017-05-11.
+ * Created by P. Gajland on 2017-05-12.
  */
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import com.sendgrid.*;
 
 import java.io.IOException;
 
-public class Example {
-    public static void main(String[] args) throws IOException {
-        Email from = new Email("test@example.com");
+@RestController
+public class MailController {
+
+    @RequestMapping(value = "/send")
+    public void send(@RequestParam(value = "toEmail", required = true) String toEmail) throws IOException {
+        //public void send() throws IOException {
+        Email from = new Email("app67253195@heroku.com");
         String subject = "Hello World from the SendGrid Java Library!";
-        Email to = new Email("test@example.com");
+        Email to = new Email(toEmail);
+        //Email to = new Email("philgajland@gmail.com");
         Content content = new Content("text/plain", "Hello, Email!");
         Mail mail = new Mail(from, subject, to, content);
 
-        SendGrid sg = new SendGrid(System.getenv("SENDGRID_API_KEY"));
+        // TODO: Add SENDGRID_API_KEY
+        SendGrid sg = new SendGrid(" ");
         Request request = new Request();
         try {
             request.method = Method.POST;

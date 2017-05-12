@@ -1,5 +1,9 @@
 package io.github.core55.email;
 
+/**
+ * Created by P. Gajland and S. Stefani.
+ */
+
 import com.sendgrid.*;
 import org.springframework.stereotype.Service;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -28,7 +32,7 @@ public class EmailService {
         Mail mail = new Mail(from, subject, to, content);
 
         // TODO: Add SENDGRID_API_KEY
-        SendGrid sg = new SendGrid(" ");
+        SendGrid sg = new SendGrid("SENDGRID_API_KEY");
         Request request = new Request();
         try {
             request.method = Method.POST;

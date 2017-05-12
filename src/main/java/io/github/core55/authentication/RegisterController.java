@@ -11,12 +11,15 @@ import io.github.core55.email.EmailService;
 import io.github.core55.response.StringResponse;
 import io.github.core55.user.UserRepository;
 import org.springframework.hateoas.Resource;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import io.github.core55.email.MailContentBuilder;
+
 import javax.persistence.EntityNotFoundException;
+
 import org.springframework.web.bind.annotation.*;
 import io.github.core55.tokens.AuthTokenRepository;
 import org.springframework.security.core.Authentication;

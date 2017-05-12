@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import javax.persistence.*;
 import io.github.core55.user.User;
 import io.github.core55.core.BaseEntity;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
 
@@ -28,7 +31,8 @@ public class Meetup extends BaseEntity {
     @Size(min = 1, max = 50)
     private String name;
 
-    @ManyToMany(mappedBy = "meetups")
+    @ManyToMany(mappedBy = "meetups", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
     private List<User> users = new ArrayList<>();
 
     protected Meetup() {

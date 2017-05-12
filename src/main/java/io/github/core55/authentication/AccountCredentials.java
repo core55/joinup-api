@@ -2,9 +2,18 @@ package io.github.core55.authentication;
 
 public class AccountCredentials {
 
+    private String nickname;
     private String username;
     private String password;
     private String oldUsername;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     public String getUsername() {
         return username;

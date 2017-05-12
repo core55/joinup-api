@@ -48,6 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers(HttpMethod.POST, "/api/login").permitAll()
 //                .antMatchers("/api/login/**").permitAll()
                 .antMatchers("/api/**").permitAll() // Temporary
+                .antMatchers("/send").permitAll() // Temporary
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JWTAuthenticationFilter(),

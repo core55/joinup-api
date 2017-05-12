@@ -24,6 +24,8 @@ public class AuthToken {
 
     private String action;
 
+    private String nickname;
+
     private String username;
 
     private String password;
@@ -68,6 +70,14 @@ public class AuthToken {
 
     public void setAction(String action) {
         this.action = action;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getUsername() {

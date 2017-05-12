@@ -54,16 +54,18 @@ public class RegisterController {
         User retrievedUserByUsername = userRepository.findByUsername(credentials.getUsername());
 
         if (retrievedUserByUsername != null) {
-            return new ResponseEntity<>(new ErrorUnprocessableEntity("The username " + credentials.getUsername()) + " is already taken", HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity<>(new ErrorUnprocessableEntity("The username " + credentials.getUsername() + " is already taken"), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         User user;
         if (credentials.getOldUsername() == null) {
             AuthToken authToken = new AuthToken(tokenValue, credentials.getUsername(), credentials.getPassword());
+            if (credentials.getNickname() != null) { authToken.setNickname(credentials.getNickname()); }
             authTokenRepository.save(authToken);
         } else {
             AuthToken authToken = new AuthToken(tokenValue, credentials.getUsername(), credentials.getPassword());
             user = userRepository.findByUsername(credentials.getOldUsername());
+            if (credentials.getNickname() != null) { authToken.setNickname(credentials.getNickname()); }
             authToken.setUserId(user.getId());
             authTokenRepository.save(authToken);
         }
@@ -92,10 +94,12 @@ public class RegisterController {
         if (authToken.getUserId() == null) {
             String gravatarURI = "https://www.gravatar.com/avatar/" + MD5Util.md5Hex(authToken.getUsername());
             user = new User(authToken.getUsername(), gravatarURI);
+            if (authToken.getNickname() != null) { user.setNickname(authToken.getNickname()); }
             user.setPlainPassword(authToken.getPassword());
         } else {
             user = userRepository.findOne(authToken.getUserId());
             String gravatarURI = "https://www.gravatar.com/avatar/" + MD5Util.md5Hex(authToken.getUsername());
+            if (authToken.getNickname() != null) { user.setNickname(authToken.getNickname()); }
             user.setUsername(authToken.getUsername());
             user.setPlainPassword(authToken.getPassword());
             user.setGravatarURI(gravatarURI);

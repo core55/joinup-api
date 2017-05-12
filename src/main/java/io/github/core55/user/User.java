@@ -9,6 +9,8 @@ import io.github.core55.core.BaseEntity;
 import javax.validation.constraints.Size;
 import io.github.core55.location.Location;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -51,7 +53,7 @@ public class User extends BaseEntity {
 
     private String[] roles;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "meetup_user",
             joinColumns = {@JoinColumn(name = "user_id")},

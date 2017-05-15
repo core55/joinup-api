@@ -69,7 +69,7 @@ public class RegisterController {
 
         // TODO: fix email templates
         MailTemplate mailTemplate = new MailTemplate();
-        mailTemplate.prepareAndSend(credentials.getUsername(), "Register to Joinup", "/api/register/" + tokenValue, "2bb9182b-6456-4b41-b94b-e298fd3a8895");
+        mailTemplate.prepareAndSend(credentials.getUsername(), "Register to Joinup", "/api/register/" + tokenValue, "415b79db-7c07-4539-8827-e3745e1d1ce6", "Register");
 
         Resource<StringResponse> resource = new Resource<>(new StringResponse("Email sent correctly to " + credentials.getUsername()));
         return ResponseEntity.ok(resource);

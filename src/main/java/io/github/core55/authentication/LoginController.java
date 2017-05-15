@@ -69,7 +69,7 @@ public class LoginController {
 
         // TODO: Fix email system!
         MailTemplate mailTemplate = new MailTemplate();
-        mailTemplate.prepareAndSend(user.getUsername(), "Login to Joinup", "/api/login/" + tokenValue, "415b79db-7c07-4539-8827-e3745e1d1ce6");
+        mailTemplate.prepareAndSend(user.getUsername(), "Login to Joinup", "/api/login/" + tokenValue, "2bb9182b-6456-4b41-b94b-e298fd3a8895", "Login");
 
         Resource<StringResponse> resource = new Resource<>(new StringResponse("Email sent correctly to " + user.getUsername()));
         return ResponseEntity.ok(resource);

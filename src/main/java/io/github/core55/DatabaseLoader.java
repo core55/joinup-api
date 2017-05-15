@@ -1,11 +1,13 @@
 package io.github.core55;
 
+import io.github.core55.core.DataHolder;
 import io.github.core55.user.User;
 import io.github.core55.meetup.Meetup;
 import io.github.core55.tokens.MD5Util;
 import io.github.core55.user.UserRepository;
 import io.github.core55.user.UserEventHandler;
 import io.github.core55.meetup.MeetupRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.boot.ApplicationRunner;
 import io.github.core55.meetup.MeetupEventHandler;
@@ -15,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Component
 public class DatabaseLoader implements ApplicationRunner {
+
+    @Value("${spring.sendgrid.api-key}")
+    private String sendGridKey;
 
     private final MeetupRepository meetupRepository;
     private final UserRepository users;
@@ -76,5 +81,7 @@ public class DatabaseLoader implements ApplicationRunner {
         users.save(Simone);
         users.save(Marcel);
         users.save(Jiho);
+
+        DataHolder.getInstance().setSendGridKey(sendGridKey);
     }
 }

@@ -51,7 +51,7 @@ public class RegisterController {
      * a new user entity. It returns the registered user and automatically authenticates it.
      */
     @RequestMapping(value = "/send", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    public @ResponseBody ResponseEntity<?> sendRegisterEmail(@RequestBody AccountCredentials credentials, HttpServletResponse res) {
+    public @ResponseBody ResponseEntity<?> sendRegisterEmail(@RequestBody AccountCredentials credentials) {
 
         String tokenValue = generateToken();
         User retrievedUserByUsername = userRepository.findByUsername(credentials.getUsername());

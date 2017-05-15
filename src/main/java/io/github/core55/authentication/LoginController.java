@@ -38,7 +38,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 @RequestMapping("api/login")
 public class LoginController {
 
-    private final JavaMailSender javaMailSender;
     private final UserRepository userRepository;
     private final MagicLinkTokenRepository magicLinkTokenRepository;
     private static final JsonFactory jsonFactory = new JacksonFactory();
@@ -46,7 +45,6 @@ public class LoginController {
 
     @Autowired
     public LoginController(JavaMailSender javaMailSender, UserRepository userRepository, MagicLinkTokenRepository magicLinkTokenRepository) {
-        this.javaMailSender = javaMailSender;
         this.userRepository = userRepository;
         this.magicLinkTokenRepository = magicLinkTokenRepository;
     }

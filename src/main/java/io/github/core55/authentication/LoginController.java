@@ -4,20 +4,23 @@ import java.util.UUID;
 import java.io.IOException;
 import java.util.Collections;
 
+import io.github.core55.email.MailTemplate;
 import io.github.core55.response.ErrorUnauthorized;
 import io.github.core55.response.ErrorUnprocessableEntity;
 import io.github.core55.user.User;
-import io.github.core55.email.EmailService;
 import org.springframework.http.HttpStatus;
 import io.github.core55.response.StringResponse;
 import io.github.core55.user.UserRepository;
 import org.springframework.hateoas.Resource;
+
 import java.security.GeneralSecurityException;
+
 import io.github.core55.tokens.MagicLinkToken;
 import com.google.api.client.json.JsonFactory;
+
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.ResponseEntity;
-import io.github.core55.email.MailContentBuilder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 import io.github.core55.tokens.MagicLinkTokenRepository;
@@ -35,17 +38,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 @RequestMapping("api/login")
 public class LoginController {
 
-    private final JavaMailSender javaMailSender;
     private final UserRepository userRepository;
-    private final MailContentBuilder mailContentBuilder;
     private final MagicLinkTokenRepository magicLinkTokenRepository;
     private static final JsonFactory jsonFactory = new JacksonFactory();
     private static final NetHttpTransport netHttpTransport = new NetHttpTransport();
 
     @Autowired
-    public LoginController(JavaMailSender javaMailSender, MailContentBuilder mailContentBuilder, UserRepository userRepository, MagicLinkTokenRepository magicLinkTokenRepository) {
-        this.javaMailSender = javaMailSender;
-        this.mailContentBuilder = mailContentBuilder;
+    public LoginController(JavaMailSender javaMailSender, UserRepository userRepository, MagicLinkTokenRepository magicLinkTokenRepository) {
         this.userRepository = userRepository;
         this.magicLinkTokenRepository = magicLinkTokenRepository;
     }
@@ -69,8 +68,8 @@ public class LoginController {
         magicLinkTokenRepository.save(magicLinkToken);
 
         // TODO: Fix email system!
-        EmailService emailService = new EmailService(javaMailSender, mailContentBuilder);
-        emailService.prepareAndSend(user.getUsername(), "Login to Joinup", "/api/login/" + tokenValue);
+        MailTemplate mailTemplate = new MailTemplate();
+        mailTemplate.prepareAndSend(user.getUsername(), "Login to Joinup", "/api/login/" + tokenValue, "2bb9182b-6456-4b41-b94b-e298fd3a8895", "Login");
 
         Resource<StringResponse> resource = new Resource<>(new StringResponse("Email sent correctly to " + user.getUsername()));
         return ResponseEntity.ok(resource);

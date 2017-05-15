@@ -3,11 +3,11 @@ package io.github.core55.authentication;
 import java.util.UUID;
 import java.util.Collections;
 
+import io.github.core55.email.MailTemplate;
 import io.github.core55.response.ErrorUnprocessableEntity;
 import io.github.core55.user.User;
 import io.github.core55.tokens.MD5Util;
 import io.github.core55.tokens.AuthToken;
-import io.github.core55.email.EmailService;
 import io.github.core55.response.StringResponse;
 import io.github.core55.user.UserRepository;
 import org.springframework.hateoas.Resource;
@@ -16,14 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import io.github.core55.email.MailContentBuilder;
 
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.web.bind.annotation.*;
 import io.github.core55.tokens.AuthTokenRepository;
 import org.springframework.security.core.Authentication;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,15 +32,11 @@ public class RegisterController {
 
     private final UserRepository userRepository;
     private final AuthTokenRepository authTokenRepository;
-    private final JavaMailSender javaMailSender;
-    private final MailContentBuilder mailContentBuilder;
 
     @Autowired
-    public RegisterController(UserRepository userRepository, AuthTokenRepository authTokenRepository, JavaMailSender javaMailSender, MailContentBuilder mailContentBuilder) {
+    public RegisterController(UserRepository userRepository, AuthTokenRepository authTokenRepository) {
         this.userRepository = userRepository;
         this.authTokenRepository = authTokenRepository;
-        this.javaMailSender = javaMailSender;
-        this.mailContentBuilder = mailContentBuilder;
     }
 
     /**
@@ -74,8 +68,8 @@ public class RegisterController {
         }
 
         // TODO: fix email templates
-        EmailService emailService = new EmailService(javaMailSender, mailContentBuilder);
-        emailService.prepareAndSend(credentials.getUsername(), "Register to Joinup", "/api/register/" + tokenValue);
+        MailTemplate mailTemplate = new MailTemplate();
+        mailTemplate.prepareAndSend(credentials.getUsername(), "Register to Joinup", "/api/register/" + tokenValue, "415b79db-7c07-4539-8827-e3745e1d1ce6", "Register");
 
         Resource<StringResponse> resource = new Resource<>(new StringResponse("Email sent correctly to " + credentials.getUsername()));
         return ResponseEntity.ok(resource);

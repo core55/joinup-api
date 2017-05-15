@@ -28,7 +28,7 @@ public class EmailService {
 
     public void prepareAndSend(String recipient, String subject, String link) {
 
-        String body = "<a class='button-mobile' href='http://localhost:8080" + link + "' style='background-color:#2489B0 ;border-radius:5px;color:#ffffff ;display:inline-block;font-family:'Cabin', Helvetica, Arial, sans-serif;font-size:14px;font-weight:normal;line-height:45px;text-align:center;text-decoration:none;width:155px;-webkit-text-size-adjust:none;mso-hide:all;' th:=''>Register</a>";
+        String body = "<a class='button-mobile' href='http://localhost:8080" + link + "'>Register</a>";
         Email from = new Email("hello@joinup.nu");
         Email to = new Email(recipient);
         Content content = new Content("text/html", body);

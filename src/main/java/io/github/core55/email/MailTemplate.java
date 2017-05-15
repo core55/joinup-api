@@ -5,16 +5,13 @@ import io.github.core55.core.DataHolder;
 
 import java.io.IOException;
 
-/**
- * Created by P. Gajland on 2017-05-15.
- */
 public class MailTemplate {
 
 
     public void prepareAndSend(String recipient, String subject, String link, String templateID, String regOrLog) {
 
         //TODO: change localhost
-        String body = "<a class='button-mobile' href='http://localhost:8080" + link + "'>" + regOrLog + "</a>";
+        String body = "<a class='button-mobile' href='https://culater.herokuapp.com/#/" + link + "'>" + regOrLog + "</a>";
         Email from = new Email("service@joinup.nu");
         Email to = new Email(recipient);
         Content content = new Content("text/html", body);

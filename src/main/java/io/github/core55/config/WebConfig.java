@@ -22,6 +22,7 @@ public class WebConfig {
         config.setAllowCredentials(true);
         config.addAllowedOrigin("*");
         config.addAllowedHeader("*");
+        config.addExposedHeader("Authorization");
         config.addAllowedHeader("Authorization");
         config.addAllowedMethod("OPTIONS");
         config.addAllowedMethod("HEAD");

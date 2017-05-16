@@ -35,6 +35,11 @@ public class MeetupController {
                 return new ResponseEntity<>(new ErrorUnprocessableEntity("The provided user doesn't exist"), HttpStatus.UNPROCESSABLE_ENTITY);
             }
 
+            if (meetup.getUsers().contains(currentUser)) {
+                Resource<User> resource = new Resource<>(currentUser);
+                return ResponseEntity.ok(resource);
+            }
+
             currentUser.getMeetups().add(meetup);
             meetup.getUsers().add(currentUser);
 
@@ -60,6 +65,38 @@ public class MeetupController {
 
         Resource<User> resource = new Resource<>(user);
 
+        return ResponseEntity.ok(resource);
+    }
+
+    /**
+     * Remove a User entity from a specific Meetup.
+     */
+    @RequestMapping(value = "/{hash}/users/remove", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public @ResponseBody ResponseEntity<?> removeUserFromMap(@RequestBody User user, @PathVariable("hash") String hash) {
+
+        Meetup meetup = meetupRepository.findByHash(hash);
+
+        if (user.getId() == null) {
+            return new ResponseEntity<>(new ErrorUnprocessableEntity("Missing user id"), HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+        User currentUser = userRepository.findOne(user.getId());
+
+        if (currentUser == null) {
+            return new ResponseEntity<>(new ErrorUnprocessableEntity("The provided user doesn't exist"), HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+        if (!meetup.getUsers().contains(currentUser)) {
+            return new ResponseEntity<>(new ErrorUnprocessableEntity("The provided user is not in the meetup"), HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+        meetup.getUsers().remove(currentUser);
+        currentUser.getMeetups().remove(meetup);
+
+        userRepository.save(currentUser);
+        meetupRepository.save(meetup);
+
+        Resource<User> resource = new Resource<>(currentUser);
         return ResponseEntity.ok(resource);
     }
 }

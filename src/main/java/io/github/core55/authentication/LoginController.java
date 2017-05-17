@@ -67,7 +67,6 @@ public class LoginController {
         MagicLinkToken magicLinkToken = new MagicLinkToken(tokenValue, retrievedUser.getId());
         magicLinkTokenRepository.save(magicLinkToken);
 
-        // TODO: Fix email system!
         MailTemplate mailTemplate = new MailTemplate();
         mailTemplate.prepareAndSend(user.getUsername(), "Login to Joinup", "login/" + tokenValue, "2bb9182b-6456-4b41-b94b-e298fd3a8895", "Login");
 

@@ -10,7 +10,6 @@ public class MailTemplate {
 
     public void prepareAndSend(String recipient, String subject, String link, String templateID, String regOrLog) {
 
-        //TODO: change localhost
         String body = "<a class='button-mobile' href='https://culater.herokuapp.com/#/" + link + "'>" + regOrLog + "</a>";
         Email from = new Email("service@joinup.nu");
         Email to = new Email(recipient);

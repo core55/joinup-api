@@ -68,7 +68,6 @@ public class RegisterController {
             authTokenRepository.save(authToken);
         }
 
-        // TODO: fix email templates
         MailTemplate mailTemplate = new MailTemplate();
         mailTemplate.prepareAndSend(credentials.getUsername(), "Register to Joinup", "register/" + tokenValue, "415b79db-7c07-4539-8827-e3745e1d1ce6", "Register");
 

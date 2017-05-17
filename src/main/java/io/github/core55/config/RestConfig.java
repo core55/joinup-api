@@ -1,3 +1,7 @@
+/*
+  Authors: S. Stefani
+ */
+
 package io.github.core55.config;
 
 import io.github.core55.user.User;

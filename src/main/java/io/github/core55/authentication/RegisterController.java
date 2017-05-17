@@ -1,3 +1,7 @@
+/*
+  Authors: S. Stefani, P. Gajland
+ */
+
 package io.github.core55.authentication;
 
 import java.util.UUID;
@@ -12,7 +16,6 @@ import io.github.core55.response.StringResponse;
 import io.github.core55.user.UserRepository;
 import org.springframework.hateoas.Resource;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
@@ -58,12 +61,16 @@ public class RegisterController {
         User user;
         if (credentials.getOldUsername() == null) {
             AuthToken authToken = new AuthToken(tokenValue, credentials.getUsername(), credentials.getPassword());
-            if (credentials.getNickname() != null) { authToken.setNickname(credentials.getNickname()); }
+            if (credentials.getNickname() != null) {
+                authToken.setNickname(credentials.getNickname());
+            }
             authTokenRepository.save(authToken);
         } else {
             AuthToken authToken = new AuthToken(tokenValue, credentials.getUsername(), credentials.getPassword());
             user = userRepository.findByUsername(credentials.getOldUsername());
-            if (credentials.getNickname() != null) { authToken.setNickname(credentials.getNickname()); }
+            if (credentials.getNickname() != null) {
+                authToken.setNickname(credentials.getNickname());
+            }
             authToken.setUserId(user.getId());
             authTokenRepository.save(authToken);
         }
@@ -91,12 +98,16 @@ public class RegisterController {
         if (authToken.getUserId() == null) {
             String gravatarURI = "https://www.gravatar.com/avatar/" + MD5Util.md5Hex(authToken.getUsername());
             user = new User(authToken.getUsername(), gravatarURI);
-            if (authToken.getNickname() != null) { user.setNickname(authToken.getNickname()); }
+            if (authToken.getNickname() != null) {
+                user.setNickname(authToken.getNickname());
+            }
             user.setPlainPassword(authToken.getPassword());
         } else {
             user = userRepository.findOne(authToken.getUserId());
             String gravatarURI = "https://www.gravatar.com/avatar/" + MD5Util.md5Hex(authToken.getUsername());
-            if (authToken.getNickname() != null) { user.setNickname(authToken.getNickname()); }
+            if (authToken.getNickname() != null) {
+                user.setNickname(authToken.getNickname());
+            }
             user.setUsername(authToken.getUsername());
             user.setPlainPassword(authToken.getPassword());
             user.setGravatarURI(gravatarURI);

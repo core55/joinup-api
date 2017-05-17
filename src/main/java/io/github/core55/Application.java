@@ -1,3 +1,7 @@
+/*
+  Authors: S. Stefani, P. Gajland
+ */
+
 package io.github.core55;
 
 import org.springframework.boot.SpringApplication;

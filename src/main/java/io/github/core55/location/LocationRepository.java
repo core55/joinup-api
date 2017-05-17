@@ -1,3 +1,7 @@
+/*
+  Authors: S. Stefani
+ */
+
 package io.github.core55.location;
 
 import org.springframework.data.repository.CrudRepository;

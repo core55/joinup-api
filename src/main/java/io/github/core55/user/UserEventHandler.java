@@ -1,3 +1,7 @@
+/*
+  Authors: S. Stefani, P. Gajland
+ */
+
 package io.github.core55.user;
 
 import io.github.core55.tokens.MD5Util;

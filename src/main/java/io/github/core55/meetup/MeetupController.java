@@ -1,3 +1,7 @@
+/*
+  Authors: S. Stefani, P. Gajland
+ */
+
 package io.github.core55.meetup;
 
 import io.github.core55.response.ErrorUnprocessableEntity;

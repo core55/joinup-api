@@ -1,6 +1,11 @@
+/*
+  Authors: S. Stefani
+ */
+
 package io.github.core55.meetup;
 
 import java.io.Serializable;
+
 import org.springframework.stereotype.Component;
 import org.springframework.data.rest.core.support.EntityLookupSupport;
 

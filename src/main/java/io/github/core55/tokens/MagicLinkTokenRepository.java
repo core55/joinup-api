@@ -1,3 +1,7 @@
+/*
+  Authors: S. Stefani
+ */
+
 package io.github.core55.tokens;
 
 import org.springframework.data.repository.query.Param;

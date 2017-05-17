@@ -1,3 +1,7 @@
+/*
+  Authors: S. Stefani
+ */
+
 package io.github.core55.core;
 
 import org.springframework.format.annotation.DateTimeFormat;

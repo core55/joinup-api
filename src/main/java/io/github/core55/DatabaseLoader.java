@@ -1,3 +1,7 @@
+/*
+  Authors: S. Stefani
+ */
+
 package io.github.core55;
 
 import io.github.core55.core.DataHolder;

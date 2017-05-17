@@ -1,8 +1,13 @@
+/*
+  Authors: S. Stefani
+ */
+
 package io.github.core55.meetup;
 
 import java.util.List;
 import java.util.ArrayList;
 import javax.persistence.*;
+
 import io.github.core55.user.User;
 import io.github.core55.core.BaseEntity;
 import org.hibernate.annotations.Fetch;

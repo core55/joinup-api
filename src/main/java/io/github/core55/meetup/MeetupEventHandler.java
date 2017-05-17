@@ -1,3 +1,7 @@
+/*
+  Authors: S. Stefani
+ */
+
 package io.github.core55.meetup;
 
 import org.springframework.stereotype.Component;

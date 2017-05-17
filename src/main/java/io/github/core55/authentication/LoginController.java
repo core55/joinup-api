@@ -1,3 +1,7 @@
+/*
+  Authors: S. Stefani, P. Gajland
+ */
+
 package io.github.core55.authentication;
 
 import java.util.UUID;
@@ -24,7 +28,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 import io.github.core55.tokens.MagicLinkTokenRepository;
-import org.springframework.mail.javamail.JavaMailSender;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,7 +114,7 @@ public class LoginController {
             throws GeneralSecurityException, IOException {
 
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(netHttpTransport, jsonFactory)
-                .setAudience(Collections.singletonList("517650150673-5u6la6tavh161igifde0va2nhqrunsp0.apps.googleusercontent.com"))
+                .setAudience(Collections.singletonList("517650150673-424j9n9mmf122j2fqid2vggqupv7n3di.apps.googleusercontent.com"))
                 .build();
 
         GoogleIdToken idToken = verifier.verify(googleToken.getIdToken());

@@ -1,14 +1,21 @@
+/*
+  Authors: P. Gajland
+ */
+
 package io.github.core55.authentication;
 
 import java.util.Date;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import static java.util.Collections.emptyList;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-
 
 public class TokenAuthenticationService {
 
@@ -21,7 +28,7 @@ public class TokenAuthenticationService {
      * Add a JWT to the header of a response message. The authorization header has the following structure:
      * Authorization -> Bearer {generated JWT}
      *
-     * @param res is the response message that the JWT has to be attached to
+     * @param res      is the response message that the JWT has to be attached to
      * @param username of the user that needs to be authenticated with the JWT
      */
     static void addAuthentication(HttpServletResponse res, String username) {

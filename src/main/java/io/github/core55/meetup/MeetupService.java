@@ -1,6 +1,11 @@
+/*
+  Authors: S. Stefani, P. Gajland
+ */
+
 package io.github.core55.meetup;
 
 import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class MeetupService {

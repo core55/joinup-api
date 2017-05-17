@@ -1,3 +1,7 @@
+/*
+  Authors: S. Stefani
+ */
+
 package io.github.core55.user;
 
 import org.springframework.stereotype.Service;import org.springframework.beans.factory.annotation.Autowired;

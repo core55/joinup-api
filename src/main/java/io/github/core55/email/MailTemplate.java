@@ -1,3 +1,7 @@
+/*
+  Authors: S. Stefani, P. Gajland
+ */
+
 package io.github.core55.email;
 
 import com.sendgrid.*;
@@ -6,7 +10,6 @@ import io.github.core55.core.DataHolder;
 import java.io.IOException;
 
 public class MailTemplate {
-
 
     public void prepareAndSend(String recipient, String subject, String link, String templateID, String regOrLog) {
 

@@ -1,3 +1,7 @@
+/*
+  Authors: S. Stefani, P. Gajland
+ */
+
 package io.github.core55.config;
 
 import io.github.core55.user.User;
@@ -29,24 +33,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-//                .antMatchers(HttpMethod.POST, "/api/login").permitAll()
-//                .antMatchers(HttpMethod.GET, "/api/meetups").access("hasRole('ROLE_ADMIN')")
-//                .antMatchers(HttpMethod.POST, "/api/meetups").permitAll()
-//                .antMatchers(HttpMethod.GET, "/api/meetups/**").permitAll()
-//                .antMatchers(HttpMethod.PUT, "/api/meetups/**").access("hasRole('ROLE_ASSOCIATEDUSERS')")
-//                .antMatchers(HttpMethod.PATCH, "/api/meetups/**").access("hasRole('ROLE_ASSOCIATEDUSERS')")
-//                .antMatchers(HttpMethod.DELETE, "/api/meetups/**").access("hasRole('ROLE_CREATOR')")
-//                .antMatchers(HttpMethod.POST, "api/meetups/**/users/save").permitAll()
-//                .antMatchers(HttpMethod.GET, "api/meetups/**/users").access("hasRole('ROLE_ASSOCIATEDUSERS')")
-//                .antMatchers(HttpMethod.GET, "api/users").access("hasRole('ROLE_ADMIN')")
-//                .antMatchers(HttpMethod.POST, "api/users").access("hasRole('ROLE_ADMIN')")
-//                .antMatchers(HttpMethod.GET, "api/users/**").access("hasRole('ROLE_OWNUSER')")
-//                .antMatchers(HttpMethod.PUT, "api/users/**").access("hasRole('ROLE_OWNUSER')")
-//                .antMatchers(HttpMethod.PATCH, "api/users/**").access("hasRole('ROLE_OWNUSER')")
-//                .antMatchers(HttpMethod.DELETE, "api/users/**").access("hasRole('ROLE_OWNUSER')")
-//                .antMatchers(HttpMethod.GET, "api/users/**/locations").access("hasRole('ROLE_OWNUSER')")
-//                .antMatchers(HttpMethod.POST, "/api/login").permitAll()
-//                .antMatchers("/api/login/**").permitAll()
                 .antMatchers("/api/**").permitAll() // Temporary
                 .anyRequest().authenticated()
                 .and()

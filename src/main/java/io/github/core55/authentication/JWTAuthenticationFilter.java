@@ -1,3 +1,7 @@
+/*
+  Authors: P. Gajland
+ */
+
 package io.github.core55.authentication;
 
 import java.io.IOException;

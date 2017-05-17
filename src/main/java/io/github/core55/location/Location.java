@@ -1,9 +1,17 @@
+/*
+  Authors: S. Stefani
+ */
+
 package io.github.core55.location;
 
 import javax.persistence.Entity;
+
 import io.github.core55.user.User;
+
 import javax.persistence.ManyToOne;
+
 import io.github.core55.core.BaseEntity;
+
 import javax.validation.constraints.NotNull;
 
 @Entity

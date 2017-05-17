@@ -12,6 +12,7 @@ import io.github.core55.response.StringResponse;
 import io.github.core55.user.UserRepository;
 import org.springframework.hateoas.Resource;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
@@ -102,7 +103,7 @@ public class RegisterController {
             user.setGravatarURI(gravatarURI);
         }
 
-        authTokenRepository.delete(authToken);
+        // authTokenRepository.delete(authToken);
         userRepository.save(user);
 
         Authentication auth = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), Collections.emptyList());

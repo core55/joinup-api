@@ -44,7 +44,7 @@ public class LoginController {
     private static final NetHttpTransport netHttpTransport = new NetHttpTransport();
 
     @Autowired
-    public LoginController(JavaMailSender javaMailSender, UserRepository userRepository, MagicLinkTokenRepository magicLinkTokenRepository) {
+    public LoginController(UserRepository userRepository, MagicLinkTokenRepository magicLinkTokenRepository) {
         this.userRepository = userRepository;
         this.magicLinkTokenRepository = magicLinkTokenRepository;
     }

@@ -8,12 +8,10 @@ import java.util.UUID;
 import java.io.IOException;
 import java.util.Collections;
 
-import io.github.core55.email.MailTemplate;
-import io.github.core55.response.ErrorUnauthorized;
-import io.github.core55.response.ErrorUnprocessableEntity;
 import io.github.core55.user.User;
+import io.github.core55.core.DataHolder;
+import io.github.core55.email.MailTemplate;
 import org.springframework.http.HttpStatus;
-import io.github.core55.response.StringResponse;
 import io.github.core55.user.UserRepository;
 import org.springframework.hateoas.Resource;
 
@@ -25,9 +23,12 @@ import com.google.api.client.json.JsonFactory;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.ResponseEntity;
+import io.github.core55.response.StringResponse;
 import org.springframework.web.bind.annotation.*;
+import io.github.core55.response.ErrorUnauthorized;
 import org.springframework.security.core.Authentication;
 import io.github.core55.tokens.MagicLinkTokenRepository;
+import io.github.core55.response.ErrorUnprocessableEntity;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,7 +115,7 @@ public class LoginController {
             throws GeneralSecurityException, IOException {
 
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(netHttpTransport, jsonFactory)
-                .setAudience(Collections.singletonList("517650150673-424j9n9mmf122j2fqid2vggqupv7n3di.apps.googleusercontent.com"))
+                .setAudience(Collections.singletonList(DataHolder.getInstance().getGoogleSignInKey()))
                 .build();
 
         GoogleIdToken idToken = verifier.verify(googleToken.getIdToken());

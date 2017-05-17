@@ -25,6 +25,9 @@ public class DatabaseLoader implements ApplicationRunner {
     @Value("${spring.sendgrid.api-key}")
     private String sendGridKey;
 
+    @Value("${joinup.env.googleauth}")
+    private String googleSignInKey;
+
     private final MeetupRepository meetupRepository;
     private final UserRepository users;
     private final LocationRepository locationRepository;
@@ -87,5 +90,6 @@ public class DatabaseLoader implements ApplicationRunner {
         users.save(Jiho);
 
         DataHolder.getInstance().setSendGridKey(sendGridKey);
+        DataHolder.getInstance().setGoogleSignInKey(googleSignInKey);
     }
 }

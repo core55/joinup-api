@@ -9,6 +9,7 @@ public class DataHolder {
     private static final DataHolder holder = new DataHolder();
 
     private String sendGridKey;
+    private String googleSignInKey;
 
     public static DataHolder getInstance() {
         return holder;
@@ -20,5 +21,13 @@ public class DataHolder {
 
     public void setSendGridKey(String sendGridKey) {
         this.sendGridKey = sendGridKey;
+    }
+
+    public String getGoogleSignInKey() {
+        return googleSignInKey;
+    }
+
+    public void setGoogleSignInKey(String googleSignInKey) {
+        this.googleSignInKey = googleSignInKey;
     }
 }

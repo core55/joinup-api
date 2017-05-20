@@ -1,4 +1,4 @@
-# dry-cherry API Spec
+# JoinUp API Spec
 
 ## Intro
 
@@ -10,7 +10,7 @@ Team website: [Core 55](https://core55.github.io/)
 
 ## Installation 
 
-Clone with SSH: `git clone git@gits-15.sys.kth.se:core55/dry-cherry.git`
+TBA
 
 ## JSON Objects returned by API
 

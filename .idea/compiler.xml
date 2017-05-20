@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="dry-cherry" />
+        <module name="joinup-api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="dry-cherry" target="1.8" />
+      <module name="joinup-api" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.core55</groupId>
-    <artifactId>dry-cherry</artifactId>
+    <artifactId>joinup-api</artifactId>
     <version>0.1.0</version>
 
     <parent>
